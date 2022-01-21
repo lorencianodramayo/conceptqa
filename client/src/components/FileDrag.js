@@ -37,7 +37,7 @@ const FileDrag = (props) => {
         <p className="ant-upload-text">
           Click or drag file to this area to upload
         </p>
-        <p className="ant-upload-hint">Supports single .zip file upload.</p>
+        <p className="ant-upload-hint">Supports multiple .zip file upload.</p>
       </Dragger>
     </div>
   );
