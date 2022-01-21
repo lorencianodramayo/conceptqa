@@ -1,0 +1,47 @@
+@import '~antd/dist/antd.less';
+@import url('https://fonts.googleapis.com/css2?family=Karla:wght@200;300;500;700;800&display=swap');
+
+.App{
+  height: 100vh;
+}
+
+.Home{
+  background-color: #0d0423;
+  height: inherit;
+  background-image: url('./assets/background.svg');
+  background-size: cover;
+  background-repeat: no-repeat;
+  background-origin: content-box;
+  .ant-row{
+    height: inherit;
+    .slider-left{
+      background-color: #fff;
+      .ant-card{
+        .ant-card-head{
+          min-height: 12em;
+          align-items: flex-end;
+          display: flex;
+          background-color: #140633;
+          .ant-card-head-wrapper{
+            .ant-card-head-title{
+              h1{
+                color: #FFF;
+                span{
+                  color: #29125f;
+                  word-break: break-word;
+                  z-index: 3;
+                  background-image: linear-gradient(90deg, #e0238c, #f22076 47.43%, #f96666);
+                  background-size: 100%;
+                  -webkit-background-clip: text;
+                  -moz-background-clip: text;
+                  -webkit-text-fill-color: transparent;
+                  -moz-text-fill-color: transparent;
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  }
+}
