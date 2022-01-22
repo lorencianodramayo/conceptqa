@@ -13,7 +13,7 @@ function App() {
             <Route exact path="/" element={<Home />} />
           </Routes>
           <Routes>
-            <Route exact path="/creatives/:id" element={<Playground />} />
+            <Route exact path="/playground/:id" element={<Playground />} />
           </Routes>
         </React.Fragment>
       </Router>
