@@ -79,12 +79,13 @@
       height: inherit;
       background: transparent;
       .ant-menu-item{
-        margin: 0.5em 0.5em 0;
+        margin: 0.5em 0.2em 0;
         border-radius: 0.3em 0.3em 0 0;
         display: flex;
         align-items: center;
         &:hover{
-          background-color: #FFF;
+          color: #f22076;
+          background-color:#29125f;
         }
       }
       .ant-menu-item-selected{
@@ -101,9 +102,9 @@
   .ant-layout-content{
     overflow: hidden;
     position: relative;
-
+    margin-top: 0.3em;
     .site-layout-content{
-      height: calc(100vh - 14vh);
+      height: calc(100vh - 15vh);
       background: #ececec;
       background-image: url('./assets/board.svg');
       justify-content: center;
@@ -147,9 +148,29 @@
 }
 
 .Sidebar{
-    margin: 1em 0 1em 1em;
+    margin: 0.5em 0 0.5em 0.5em;
     height: calc(100vh - 9vh);
     .ant-card{
       height: inherit;
+      .ant-card-body{
+        overflow: scroll;
+        height: calc(100Vh - 9.5em);
+        .ant-row{
+          .ant-col{
+            #image{
+              width: 5em;
+              height: 5em;
+              padding: 0;
+              display: flex;
+              justify-content: center;
+              align-items: center;
+              overflow: hidden;
+              .ant-image-img{
+                vertical-align: middle;
+              }
+            }
+          }
+        }
+      }
     }
 }

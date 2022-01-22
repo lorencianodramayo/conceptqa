@@ -1,6 +1,6 @@
 import React from 'react';
 import { Layout, Menu, Breadcrumb, Drawer, List, Avatar, Row, Col } from "antd";
-import { BuildOutlined } from "@ant-design/icons";
+import { BuildOutlined, PictureOutlined } from "@ant-design/icons";
 
 import Iframe from './Iframe';
 import Sidebar from "./Sidebar";
@@ -44,20 +44,23 @@ const Playground = () => {
           <Menu.Item key="1" icon={<BuildOutlined />}>
             Playground
           </Menu.Item>
+          <Menu.Item key="2" icon={<PictureOutlined />}>
+            Assets
+          </Menu.Item>
         </Menu>
       </Header>
       <Content>
         <Row>
           <Col span={6}>
-              <Sidebar/>
+            <Sidebar />
           </Col>
-          <Col span={18} style={{padding: '0 1em'}}>
+          <Col span={18} style={{ padding: "0 1em" }}>
             <Breadcrumb style={{ margin: "16px 0" }}>
               <Breadcrumb.Item>Penzoil</Breadcrumb.Item>
               <Breadcrumb.Item>300x600</Breadcrumb.Item>
             </Breadcrumb>
             <div className="site-layout-content">
-                <Iframe />
+              <Iframe />
             </div>
           </Col>
         </Row>
