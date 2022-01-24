@@ -75,25 +75,31 @@
       }
     }
 
-    .ant-menu{
+    .ant-row{
       height: inherit;
-      background: transparent;
-      .ant-menu-item{
-        margin: 0.5em 0.2em 0;
-        border-radius: 0.3em 0.3em 0 0;
-        display: flex;
-        align-items: center;
-        &:hover{
-          color: #f22076;
-          background-color:#29125f;
-        }
-      }
-      .ant-menu-item-selected{
-        background-color: #fff !important;
-        color: #f22076;
-        span{
-          background-color: transparent;
-          color: #f22076;
+      .ant-col{
+        height: inherit;
+        .ant-menu{
+          height: inherit;
+          background: transparent;
+          .ant-menu-item{
+            margin: 0.5em 0.2em 0;
+            border-radius: 0.3em 0.3em 0 0;
+            display: flex;
+            align-items: center;
+            &:hover{
+              color: #f22076;
+              background-color:#29125f;
+            }
+          }
+          .ant-menu-item-selected{
+            background-color: #fff !important;
+            color: #f22076;
+            span{
+              background-color: transparent;
+              color: #f22076;
+            }
+          }
         }
       }
     }
@@ -103,13 +109,22 @@
     overflow: hidden;
     position: relative;
     margin-top: 0.3em;
+    .ant-row{
+      z-index: 9;
+      position: fixed;
+      background: #fff;
+      width: calc(100vw - 380px);
+    }
     .site-layout-content{
-      height: calc(100vh - 15vh);
+      margin-top: 54px;
+      min-height: calc(100vh - 15vh);
       background: #ececec;
       background-image: url('./assets/board.svg');
       justify-content: center;
       display: flex;
       align-items: center;
+      border: solid 1px #b1b1b1;
+
     }
 
     .ant-drawer-content{
@@ -148,13 +163,21 @@
 }
 
 .Sidebar{
-    margin: 0.5em 0 0.5em 0.5em;
+    margin: 4em 0.5em 0.5em 0.5em;
     height: calc(100vh - 9vh);
     .ant-card{
       height: inherit;
       .ant-card-body{
         overflow: scroll;
         height: calc(100Vh - 9.5em);
+        .ant-collapse-header{
+          padding: 0;
+        }
+        .ant-collapse-content{
+          .ant-collapse-content-box{
+            padding: 0.5em 0em;
+          }
+        }
         .ant-row{
           .ant-col{
             #image{
@@ -168,6 +191,25 @@
               .ant-image-img{
                 vertical-align: middle;
               }
+            }
+          }
+        }
+
+        .label{
+          label{
+            width: 100%;
+            .ant-row{
+              width: inherit;
+              .ant-col{
+                display: flex;
+                justify-content: flex-end;
+              }
+            }
+          }
+
+          .ant-radio-group{
+            label{
+              width: initial;
             }
           }
         }

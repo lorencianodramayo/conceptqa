@@ -1,7 +1,6 @@
 import Frame from 'react-iframe';
 
 const Iframe = () => {
-
     return (
       <div className="Iframe">
         <Frame
