@@ -14,7 +14,7 @@ const FileDrag = (props) => {
     accept: ".zip",
     name: "upload",
     type: "post",
-    multiple: false,
+    multiple: true,
     action: "/api/upload",
     contentType: false,
     processData: false,
