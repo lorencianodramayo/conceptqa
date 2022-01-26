@@ -11,8 +11,6 @@ function App() {
         <React.Fragment>
           <Routes>
             <Route exact path="/" element={<Home />} />
-          </Routes>
-          <Routes>
             <Route exact path="/playground/:id" element={<Playground />} />
           </Routes>
         </React.Fragment>
