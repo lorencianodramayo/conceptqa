@@ -17,6 +17,7 @@ import {
   PictureOutlined,
   LayoutOutlined,
   BlockOutlined,
+  EyeFilled,
 } from "@ant-design/icons";
 
 import Iframe from "./Iframe";
@@ -54,20 +55,6 @@ const Playground = () => {
 
   return (
     <Layout className="Playground" hasSider>
-      <Sider
-        theme="light"
-        width={350}
-        style={{
-          overflow: "auto",
-          height: "100vh",
-          position: "fixed",
-          left: 0,
-          top: 0,
-          bottom: 0,
-        }}
-      >
-        <Sidebar />
-      </Sider>
       <Header style={{ position: "fixed", zIndex: 1, width: "100%" }}>
         <Row>
           <Col span={12}>
@@ -102,27 +89,45 @@ const Playground = () => {
           </Col>
         </Row>
       </Header>
+      <Sider
+        trigger={null}
+        collapsible
+        collapsed={closeable}
+        collapsedWidth={0}
+        theme="light"
+        width={350}
+        style={{
+          overflow: "auto",
+          height: "100vh",
+          left: 0,
+          top: 0,
+          bottom: 0,
+        }}
+      >
+        <Sidebar />
+      </Sider>
+
       <Layout
         className="site-layout"
-        style={{ marginLeft: 350, marginTop: 28, backgroundColor: "#fff" }}
+        style={{ marginTop: 28, backgroundColor: "#fff" }}
       >
         <Content style={{ margin: "20px 16px 0", overflow: "initial" }}>
           <Row>
-            <Col span={8}>
+            <Col span={12}>
               <Breadcrumb style={{ margin: "16px 0" }}>
                 <Breadcrumb.Item>Penzoil</Breadcrumb.Item>
                 <Breadcrumb.Item>300x600</Breadcrumb.Item>
               </Breadcrumb>
             </Col>
             <Col
-              span={8}
-              offset={8}
+              span={12}
               style={{
                 alignItems: "center",
                 display: "flex",
                 justifyContent: "flex-end",
               }}
             >
+              <Button type="link" icon={<EyeFilled />} />
               <Tselect />
               <Divider type="vertical" />
               <Button
