@@ -41,6 +41,7 @@ const Tselect = () => {
                   cursor: "pointer",
                 }}
                 onClick={addItem}
+                href={()=>false}
               >
                 <PlusOutlined /> Add item
               </a>

@@ -39,25 +39,29 @@ const FileDrag = (props) => {
 
       if (status === "done") {
         setUploaded(uploaded+1);
-          axios.put("/TemplateAPI/update", {
-            _id: playground,
-            data: {
-              [`${response.width}x${response.height}`]: response._id,
-            },
-          }).then(res => {
-            if (count === uploaded) {
-              notification.success({
-                message: `${
-                  count > 1 ? `Templates` : `Template`
-                } Successfully Uploaded!`,
-                description: `${count} ${
-                  count > 1 ? `creatives are` : `creative is`
-                } now uploaded, please wait for the playground to load.`,
-                placement: "bottomLeft",
-              });
-              navigate(`/playground/${playground}`);
-            }
-          });
+          axios
+            .put("/TemplateAPI/update", {
+              _id: playground,
+              data: {
+                templateId: response._id,
+                name: response.directory.split("-")[1],
+                dimension: `${response.width}x${response.height}`,
+              },
+            })
+            .then((res) => {
+              if (count === uploaded) {
+                notification.success({
+                  message: `${
+                    count > 1 ? `Templates` : `Template`
+                  } Successfully Uploaded!`,
+                  description: `${count} ${
+                    count > 1 ? `creatives are` : `creative is`
+                  } now uploaded, please wait for the playground to load.`,
+                  placement: "bottomLeft",
+                });
+                navigate(`/playground/${playground}`);
+              }
+            });
       }
     },
   };

@@ -1,4 +1,7 @@
 import React from "react";
+import { useDispatch, useSelector } from "react-redux";
+import { useParams, useNavigate } from "react-router-dom";
+import axios from 'axios';
 import ReactCountryFlag from "react-country-flag";
 import {
   Layout,
@@ -6,13 +9,12 @@ import {
   Breadcrumb,
   Drawer,
   List,
-  Avatar,
   Row,
   Col,
   Button,
   Divider,
 } from "antd";
-import {
+import Icon, {
   ExperimentOutlined,
   PictureOutlined,
   LayoutOutlined,
@@ -25,25 +27,46 @@ import Sidebar from "./Sidebar";
 import Tselect from "./Tselect";
 import logo from "../assets/main-logo.svg";
 
+import { GoogleSvg  } from "../assets/icons";
+
+import { template } from '../reducers/template';
+import { counter } from '../reducers/counter';
+
+const GoogleIcon = (props) => <Icon component={GoogleSvg} {...props} />;
 const { Header, Content, Sider } = Layout;
 
-const data = [
-  {
-    title: "Ant Design Title 1",
-  },
-  {
-    title: "Ant Design Title 2",
-  },
-  {
-    title: "Ant Design Title 3",
-  },
-  {
-    title: "Ant Design Title 4",
-  },
-];
-
 const Playground = () => {
+  const dispatch = useDispatch();
+  const navigate = useNavigate();
+  
+  const { playgroundId, templateId } = useParams();
+
+  const count = useSelector((state) => state.counter.value);
+  const temp = useSelector((state) => state.template.value);
+  
   const [closeable, setCloseable] = React.useState(true);
+  const [templates, setTemplates] = React.useState([]);
+
+  React.useEffect(() => {
+    //initial load for playground
+    axios
+      .get("/PlaygroundAPI/", { params: { id: playgroundId } })
+      .then((res) => {
+        setTemplates(res.data.templates);
+      });
+      
+    //if has template id
+    if (templateId !== undefined) {
+        setCloseable(templateId === undefined);
+
+        axios
+          .get("/PlaygroundAPI/template", { params: { id: templateId } })
+          .then((res) => {
+            dispatch(template(res.data));
+          });
+    }
+    
+  }, [dispatch, playgroundId, templateId]);
 
   const showDrawer = () => {
     setCloseable(true);
@@ -52,6 +75,11 @@ const Playground = () => {
   const onClose = () => {
     setCloseable(false);
   };
+  
+  const templateList = (e) => {
+    navigate(`/playground/${playgroundId}/template/${e}`);
+    dispatch(counter(count + 1));
+  }
 
   return (
     <Layout className="Playground" hasSider>
@@ -115,8 +143,8 @@ const Playground = () => {
           <Row>
             <Col span={12}>
               <Breadcrumb style={{ margin: "16px 0" }}>
-                <Breadcrumb.Item>Penzoil</Breadcrumb.Item>
-                <Breadcrumb.Item>300x600</Breadcrumb.Item>
+                <Breadcrumb.Item>{temp.name}</Breadcrumb.Item>
+                <Breadcrumb.Item>{`${temp.width}x${temp.height}`}</Breadcrumb.Item>
               </Breadcrumb>
             </Col>
             <Col
@@ -138,7 +166,7 @@ const Playground = () => {
             </Col>
           </Row>
           <div className="site-layout-content">
-            <Iframe />
+            {templateId !== undefined ? <Iframe /> : null}
           </div>
 
           <Drawer
@@ -152,13 +180,20 @@ const Playground = () => {
           >
             <List
               itemLayout="horizontal"
-              dataSource={data}
+              dataSource={templates}
               renderItem={(item) => (
-                <List.Item onClick={() => console.log(item.title)}>
+                <List.Item
+                  style={
+                    item.templateId === templateId
+                      ? { backgroundColor: "#f2207626" }
+                      : { backgroundColor: "transparent" }
+                  }
+                  onClick={() => templateList(item.templateId)}
+                >
                   <List.Item.Meta
-                    avatar={<Avatar src="https://joeschmoe.io/api/v1/random" />}
-                    title={item.title}
-                    description="300x250"
+                    avatar={<GoogleIcon />}
+                    title={item.dimension}
+                    description={item.name}
                   />
                 </List.Item>
               )}

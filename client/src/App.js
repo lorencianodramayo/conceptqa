@@ -11,7 +11,12 @@ function App() {
         <React.Fragment>
           <Routes>
             <Route exact path="/" element={<Home />} />
-            <Route exact path="/playground/:id" element={<Playground />} />
+            <Route path="/playground/:playgroundId" element={<Playground />}>
+              <Route
+                path="/playground/:playgroundId/template/:templateId"
+                element={<Playground />}
+              />
+            </Route>
           </Routes>
         </React.Fragment>
       </Router>

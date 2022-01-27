@@ -88,6 +88,15 @@ router.post("/upload", (req, res) => {
             updatedIndex =
               html.split("</html>")[0] +
               `<script>
+                  setTimeout(() => {
+                    parent.postMessage({
+                      type: 'DEFAULT_VALUES',
+                      defaultValues,
+                      possibleValues: typeof possibleValues !== 'undefined'? possibleValues : {}
+                    }, '*');
+                  }, 500);
+                  
+
                   window.addEventListener("message",
                   (event) => {
                       if(typeof event.data === "object"){
@@ -124,6 +133,7 @@ router.post("/upload", (req, res) => {
                 url: process.env.GCS_BUCKET,
                 uid: uid,
                 directory: entries.entryName.split("/")[0],
+                name: entries.entryName.split("/")[0].split('-')[1],
                 width: entries.entryName
                   .toLowerCase()
                   .split("/")[0]
@@ -160,7 +170,7 @@ router.put("/update", (req, res) => {
     PlaygroundModel.findOneAndUpdate(
       { _id: req.body._id },
       { $push: { templates: req.body.data } },
-      function (error, success) {
+      (error, success) => {
         if (error) {
           return res.status(500).json({ msg: "Sorry, internal server errors" });
         }

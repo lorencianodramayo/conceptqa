@@ -4,6 +4,7 @@
   "private": true,
   "dependencies": {
     "@craco/craco": "^6.4.3",
+    "@reduxjs/toolkit": "^1.7.1",
     "@scena/react-guides": "^0.16.0",
     "@testing-library/jest-dom": "^5.16.1",
     "@testing-library/react": "^12.1.2",
@@ -19,6 +20,7 @@
     "react-redux": "^7.2.6",
     "react-router-dom": "^6.2.1",
     "react-scripts": "^5.0.0",
+    "redux": "^4.1.2",
     "sass": "^1.49.0",
     "web-vitals": "^2.1.4",
     "yarn": "^1.22.17"

@@ -1,4 +1,6 @@
 import React from "react";
+import { useDispatch, useSelector } from "react-redux";
+import { useParams, useNavigate } from "react-router-dom";
 import {
   Card,
   Form,
@@ -17,33 +19,44 @@ import {
   Space,
   Divider,
 } from "antd";
-import {
+import Icon, {
   HighlightOutlined,
   FileImageOutlined,
   PlusSquareOutlined,
   MinusSquareOutlined,
-  ArrowUpOutlined,
-  ArrowDownOutlined,
-  AlignLeftOutlined,
 } from "@ant-design/icons";
+
+import { UpperCaseSvg, LowerCaseSvg, SentenceCaseSvg } from "../assets/icons";
+
+import { template } from "../reducers/template";
+import { counter } from "../reducers/counter";
 
 const { Panel } = Collapse;
 const { Option } = Select;
 
+const UpperCaseIcon = (props) => <Icon component={UpperCaseSvg} {...props} />;
+const LowerCaseIcon = (props) => <Icon component={LowerCaseSvg} {...props} />;
+const SentenceCaseIcon = (props) => (
+  <Icon component={SentenceCaseSvg} {...props} />
+);
+
 const Sidebar = () => {
   const [form] = Form.useForm();
+  
+  const temp = useSelector((state) => state.template.value);
+  
   const [modal2Visible, setModal2Visible] = React.useState(false);
   const [showImages, setShowImages] = React.useState(false);
-  const [activeKey, setActiveKey] = React.useState(0)
+  const [activeKey, setActiveKey] = React.useState(0);
 
-  const onSwitchChange = () =>{
+  const onSwitchChange = () => {
     setShowImages(!showImages);
-  }
+  };
 
   return (
     <div className="Sidebar">
       <Card
-        title={`${15} Dynamic Elements`}
+        title={`${17} Dynamic Elements`}
         extra={
           <Switch
             size="small"
@@ -95,13 +108,13 @@ const Sidebar = () => {
                       onBlur={() => console.log("hello")}
                     >
                       <Radio.Button value="a">
-                        <ArrowUpOutlined />
+                        <SentenceCaseIcon />
                       </Radio.Button>
                       <Radio.Button value="b">
-                        <ArrowDownOutlined />
+                        <UpperCaseIcon />
                       </Radio.Button>
                       <Radio.Button value="c">
-                        <AlignLeftOutlined />
+                        <LowerCaseIcon />
                       </Radio.Button>
                     </Radio.Group>
                   </Col>
