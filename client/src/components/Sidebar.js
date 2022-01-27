@@ -22,9 +22,9 @@ import {
   FileImageOutlined,
   PlusSquareOutlined,
   MinusSquareOutlined,
-  PicCenterOutlined,
-  PicLeftOutlined,
-  PicRightOutlined
+  ArrowUpOutlined,
+  ArrowDownOutlined,
+  AlignLeftOutlined,
 } from "@ant-design/icons";
 
 const { Panel } = Collapse;
@@ -43,7 +43,7 @@ const Sidebar = () => {
   return (
     <div className="Sidebar">
       <Card
-        title="Dynamic Elements"
+        title={`${15} Dynamic Elements`}
         extra={
           <Switch
             size="small"
@@ -95,13 +95,13 @@ const Sidebar = () => {
                       onBlur={() => console.log("hello")}
                     >
                       <Radio.Button value="a">
-                        <PicCenterOutlined />
+                        <ArrowUpOutlined />
                       </Radio.Button>
                       <Radio.Button value="b">
-                        <PicLeftOutlined />
+                        <ArrowDownOutlined />
                       </Radio.Button>
                       <Radio.Button value="c">
-                        <PicRightOutlined />
+                        <AlignLeftOutlined />
                       </Radio.Button>
                     </Radio.Group>
                   </Col>

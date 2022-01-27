@@ -1,4 +1,5 @@
 import React from "react";
+import axios from "axios";
 import { Upload, notification } from "antd";
 
 import { useNavigate } from "react-router-dom";
@@ -7,10 +8,17 @@ import { InboxOutlined } from "@ant-design/icons";
 const { Dragger } = Upload;
 
 const FileDrag = (props) => {
+  const [playground, setPlayground] = React.useState('');
   const [uploaded, setUploaded] = React.useState(1);
   const [count, setCount] = React.useState(0);
+  const navigate = useNavigate();
 
-  let navigate = useNavigate();
+  React.useEffect(()=> {
+    axios.post("/TemplateAPI/", { templates: [] }).then((res) => {
+      setPlayground(res.data._id);
+    });
+  }, [])
+
   const prop = {
     accept: ".zip",
     name: "upload",
@@ -27,25 +35,30 @@ const FileDrag = (props) => {
       setCount(fileList.length);
     },
     onChange(info) {
-      const { status } = info.file;
+      const { status, response } = info.file;
+
       if (status === "done") {
         setUploaded(uploaded+1);
-
-        console.log(count, uploaded);
-        if (count === uploaded) {
-          notification.success({
-            message: `${
-              count > 1 ? `Templates` : `Template`
-            } Successfully Uploaded!`,
-            description: `${count} ${
-              count > 1 ? `creatives are` : `creative is`
-            } now uploaded, please wait for the playground to load.`,
-            placement: "topRight",
+          axios.put("/TemplateAPI/update", {
+            _id: playground,
+            data: {
+              [`${response.width}x${response.height}`]: response._id,
+            },
+          }).then(res => {
+            if (count === uploaded) {
+              notification.success({
+                message: `${
+                  count > 1 ? `Templates` : `Template`
+                } Successfully Uploaded!`,
+                description: `${count} ${
+                  count > 1 ? `creatives are` : `creative is`
+                } now uploaded, please wait for the playground to load.`,
+                placement: "bottomLeft",
+              });
+              navigate(`/playground/${playground}`);
+            }
           });
-          //navigate("/playground/12");
-        }
       }
-      
     },
   };
   return (

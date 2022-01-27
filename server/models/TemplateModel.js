@@ -9,14 +9,6 @@ const TemplateSchema = new Schema({
   directory: String,
   width: Number,
   height: Number,
-  defaultValue: Object,
-  possibleValue: Object,
-  previewData: [
-    {
-      previewName: String,
-      defeaultValues: Object,
-    },
-  ],
   date: {
     type: String,
     default: Date.now(),
