@@ -7,6 +7,7 @@ import { Spin } from "antd";
 
 import { counter } from "../reducers/counter";
 import { template } from '../reducers/template';
+import { dynamicElements } from "../reducers/dynamicElements";
 
 const Iframe = () => {
     const dispatch = useDispatch();
@@ -14,41 +15,52 @@ const Iframe = () => {
 
     const temp = useSelector((state) => state.template.value);
     const count = useSelector((state) => state.counter.value);
+    const dynamic = useSelector((state) => state.dynamicElements.value);
 
     const [visibleFrame, setVisibleFrame] = React.useState(true);
-    const [data, setData] = React.useState({});
 
     React.useEffect(() => {
       Object.keys(temp).length > 0
         ? setVisibleFrame(true)
         : setVisibleFrame(false);
-    }, [temp, count]);
+    }, [temp, dispatch]);
 
     const loaded = (e) => {
-        window.addEventListener("message", (event) => {
-            if (event.data.type === "DEFAULT_VALUES" && Object.keys(data).length <= 0) {
-                setData(event.data);
-                dispatch(counter(count + 1));
-            }
-        });
+        window.addEventListener("message", (event) => getDynamic(event));
 
         //check if data exist
-        if (Object.keys(data).length > 0 && Object.keys(temp).includes('defaultValues') === false) {
-          axios
-            .put("/PlaygroundAPI/update", {
-              _id: templateId,
-              data: {
-                defaultValues: data.defaultValues,
-                possibleValues: data.possibleValues,
-              },
-            })
-            .then((res) => {
-              dispatch(template(res.data));
-              dispatch(counter(count + 1));
-            });
-        }else{
-            setVisibleFrame(false);
-        }
+        setTimeout(() => {
+            if (
+              Object.keys(dynamic).length > 0 &&
+              Object.keys(temp).includes("defaultValues") === false
+            ) {
+              axios
+                .put("/PlaygroundAPI/update", {
+                  _id: templateId,
+                  data: {
+                    defaultValues: dynamic.defaultValues,
+                    possibleValues: dynamic.possibleValues,
+                  },
+                })
+                .then((res) => {
+                  dispatch(template(res.data));
+                  dispatch(counter(count + 1));
+                });
+            } else {
+              setVisibleFrame(false);
+            }
+        }, 1000)
+    }
+    
+    const getDynamic = (e) => {
+      e.preventDefault();
+      if (
+        e.data.type === "DEFAULT_VALUES" &&
+        Object.keys(dynamic).length <= 0
+      ) {
+        dispatch(dynamicElements(e.data));
+        dispatch(counter(count + 1));
+      }
     }
 
     return (

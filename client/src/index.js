@@ -6,11 +6,13 @@ import { configureStore } from '@reduxjs/toolkit';
 import { Provider } from 'react-redux';
 import templateReducer from "./reducers/template";
 import counterReducer from "./reducers/counter";
+import dynamicElementsReducer from './reducers/dynamicElements';
 
 const store = configureStore({
   reducer: {
     template: templateReducer,
     counter: counterReducer,
+    dynamicElements: dynamicElementsReducer,
   },
 });
 

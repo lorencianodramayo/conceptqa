@@ -30,7 +30,6 @@ import logo from "../assets/main-logo.svg";
 import { GoogleSvg  } from "../assets/icons";
 
 import { template } from '../reducers/template';
-import { counter } from '../reducers/counter';
 
 const GoogleIcon = (props) => <Icon component={GoogleSvg} {...props} />;
 const { Header, Content, Sider } = Layout;
@@ -41,7 +40,6 @@ const Playground = () => {
   
   const { playgroundId, templateId } = useParams();
 
-  const count = useSelector((state) => state.counter.value);
   const temp = useSelector((state) => state.template.value);
   
   const [closeable, setCloseable] = React.useState(true);
@@ -78,7 +76,6 @@ const Playground = () => {
   
   const templateList = (e) => {
     navigate(`/playground/${playgroundId}/template/${e}`);
-    dispatch(counter(count + 1));
   }
 
   return (
@@ -120,7 +117,7 @@ const Playground = () => {
       <Sider
         trigger={null}
         collapsible
-        collapsed={closeable}
+        collapsed={!Object.keys(temp).includes("defaultValues")}
         collapsedWidth={0}
         theme="light"
         width={350}
@@ -140,7 +137,13 @@ const Playground = () => {
         style={{ marginTop: 28, backgroundColor: "#fff" }}
       >
         <Content style={{ margin: "20px 16px 0", overflow: "initial" }}>
-          <Row>
+          <Row
+            style={
+              !Object.keys(temp).includes("defaultValues")
+                ? { width: "calc(100vw - 31px)" }
+                : { width: "calc(100vw - 380px)" }
+            }
+          >
             <Col span={12}>
               <Breadcrumb style={{ margin: "16px 0" }}>
                 <Breadcrumb.Item>{temp.name}</Breadcrumb.Item>

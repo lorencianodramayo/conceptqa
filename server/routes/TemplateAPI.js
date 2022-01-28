@@ -26,7 +26,7 @@ const bucket = storage.bucket(process.env.GCS_BUCKET);
 const multi_upload = Multer({
   storage: Multer.memoryStorage(),
   limits: {
-    fileSize: 10 * 1024 * 1024,
+    fileSize: 100 * 1024 * 1024,
   },
 }).array("upload", 100);
 
