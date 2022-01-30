@@ -53,15 +53,17 @@ const Iframe = () => {
                   });
               }, 1000);
             } else {
-              dispatch(sidePanel(false));
-              setVisibleFrame(false);
-              
-              e.target.contentWindow.postMessage(
-                objects,
-                `https://storage.googleapis.com/${temp.url}/${
-                  temp.uid
-                }/${decodeURIComponent(temp.directory)}/index.html`
-              );
+              if(Object.keys(objects).length > 0){
+                dispatch(sidePanel(false));
+                setVisibleFrame(false);
+
+                e.target.contentWindow.postMessage(
+                  objects,
+                  `https://storage.googleapis.com/${temp.url}/${
+                    temp.uid
+                  }/${decodeURIComponent(temp.directory)}/index.html`
+                );
+              }
             }
     }
     
