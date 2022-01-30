@@ -9,6 +9,7 @@ import { counter } from "../reducers/counter";
 import { template } from "../reducers/template";
 import { dynamicElements } from "../reducers/dynamicElements";
 import { sidePanel } from "../reducers/sidePanel";
+import { objectDynamic } from "../reducers/objectDynamic";
 
 const Iframe = () => {
     const dispatch = useDispatch();
@@ -47,12 +48,14 @@ const Iframe = () => {
                   })
                   .then((res) => {
                     dispatch(template(res.data));
+                    dispatch(objectDynamic(res.data.defaultValues));
                     dispatch(counter(count + 1));
                   });
               }, 1000);
             } else {
               dispatch(sidePanel(false));
               setVisibleFrame(false);
+              
               e.target.contentWindow.postMessage(
                 objects,
                 `https://storage.googleapis.com/${temp.url}/${
