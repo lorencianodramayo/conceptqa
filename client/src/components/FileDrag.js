@@ -67,7 +67,10 @@ const FileDrag = (props) => {
   };
   return (
     <div style={{ padding: "24px" }}>
-      <Dragger {...prop}>
+      <Dragger
+        {...prop}
+        style={count > 0 ? { display: "none" } : { display: "block" }}
+      >
         <p className="ant-upload-drag-icon">
           <InboxOutlined />
         </p>
