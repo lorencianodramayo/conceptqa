@@ -147,29 +147,34 @@ const Playground = () => {
         style={{ marginTop: 28, backgroundColor: "#fff" }}
       >
         <Content style={{ margin: "20px 16px 0", overflow: "initial" }}>
-          <Row style={{ width: "100%" }}>
-            <Col span={12} className="breadcrumbs">
-              <Button
-                type="link"
-                icon={!side ? <MenuFoldOutlined /> : <MenuUnfoldOutlined />}
-                onClick={showSidePanel}
-              />
-              <Breadcrumb style={{ margin: "16px 0" }}>
-                <Breadcrumb.Item>{temp.name}</Breadcrumb.Item>
-                <Breadcrumb.Item>{`${temp.width}x${temp.height}`}</Breadcrumb.Item>
-              </Breadcrumb>
-            </Col>
-          </Row>
-          <div className="site-layout-content">
-            {templateId !== undefined ? <Iframe /> : null}
-          </div>
+          {temp.width !== undefined ? (
+            <Row style={{ width: "100%" }}>
+              <Col span={12} className="breadcrumbs">
+                <Button
+                  type="link"
+                  icon={!side ? <MenuFoldOutlined /> : <MenuUnfoldOutlined />}
+                  onClick={showSidePanel}
+                />
+                <Breadcrumb style={{ margin: "16px 0" }}>
+                  <Breadcrumb.Item>{temp.name}</Breadcrumb.Item>
+                  <Breadcrumb.Item>{`${temp.width}x${temp.height}`}</Breadcrumb.Item>
+                </Breadcrumb>
+              </Col>
+            </Row>
+          ) : null}
 
+          {templateId !== undefined ? (
+            <div className="site-layout-content">
+              <Iframe />
+            </div>
+          ) : null}
           <Drawer
             title="Creative Templates"
             placement="right"
             closable={false}
             onClose={onClose}
             visible={closeable}
+            maskClosable={templateId !== undefined}
             getContainer={false}
             maskStyle={{ backgroundColor: "#5c18ff78" }}
           >
