@@ -43,6 +43,7 @@ const Playground = () => {
 
   const temp = useSelector((state) => state.template.value);
   const side = useSelector((state) => state.sidePanel.value);
+  const objects = useSelector((state) => state.objectDynamic.value);
   
   const [closeable, setCloseable] = React.useState(true);
   const [templates, setTemplates] = React.useState([]);
@@ -89,45 +90,50 @@ const Playground = () => {
 
   return (
     <Layout className="Playground" hasSider>
-      {
-        templateId !== undefined ?
-
-      <Header style={{ position: "fixed", zIndex: 1, width: "100%" }}>
-        <Row>
-          <Col span={12}>
-            <div className="logo">
-              <img src={logo} alt="QA" />
-            </div>
-            <Menu theme="dark" mode="horizontal" defaultSelectedKeys={["1"]}>
-              <Menu.Item key="1" icon={<ExperimentOutlined />}>
-                Playground
-              </Menu.Item>
-              <Menu.Item key="2" icon={<PictureOutlined />}>
-                Assets
-              </Menu.Item>
-              <Menu.Item key="3" icon={<BlockOutlined />}>
-                Preview
-              </Menu.Item>
-            </Menu>
-          </Col>
-          <Col
-            span={12}
-            style={{
-              display: "flex",
-              justifyContent: "flex-end",
-              alignItems: "center",
-              padding: "0 1em",
-            }}
-          >
-            <Button
-              type="primary"
-              icon={<LayoutOutlined />}
-              onClick={showDrawer}
-            />
-          </Col>
-        </Row>
-      </Header> : null
-      }
+      {templateId !== undefined ? (
+        <Header style={{ position: "fixed", zIndex: 1, width: "100%" }}>
+          <Row>
+            <Col span={12}>
+              <div className="logo">
+                <img src={logo} alt="QA" />
+              </div>
+              <Menu theme="dark" mode="horizontal" defaultSelectedKeys={["1"]}>
+                <Menu.Item key="1" icon={<ExperimentOutlined />}>
+                  Playground
+                </Menu.Item>
+                <Menu.Item key="2" icon={<PictureOutlined />}>
+                  Assets
+                </Menu.Item>
+                <Menu.Item key="3" icon={<BlockOutlined />}>
+                  Preview
+                </Menu.Item>
+              </Menu>
+            </Col>
+            <Col
+              span={12}
+              style={{
+                display: "flex",
+                justifyContent: "flex-end",
+                alignItems: "center",
+                padding: "0 1em",
+              }}
+            >
+              <Button
+                type="primary"
+                loading={
+                  objects !== undefined
+                    ? Object.keys(objects).length <= 0
+                      ? true
+                      : false
+                    : true
+                }
+                icon={<LayoutOutlined />}
+                onClick={showDrawer}
+              />
+            </Col>
+          </Row>
+        </Header>
+      ) : null}
       <Sider
         trigger={null}
         collapsible
