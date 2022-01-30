@@ -34,7 +34,7 @@ const TextInput = (props) => {
         className="label"
         label={props.label}
       >
-        <Input/>
+        <Input />
       </Form.Item>
 
       <Collapse
@@ -66,10 +66,14 @@ const TextInput = (props) => {
                 <InputNumber
                   addonBefore={<MediumOutlined />}
                   min={1}
-                  value={props.content !== undefined ? props.content.split("").length : null}
+                  value={
+                    props.content !== undefined
+                      ? props.content.split("").length
+                      : null
+                  }
                   placeholder="Max"
                   size="small"
-                  style={{ width: "110px" }}
+                  style={{ width: "100px" }}
                 />
               </Space>
             </Col>
