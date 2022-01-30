@@ -89,6 +89,9 @@ const Playground = () => {
 
   return (
     <Layout className="Playground" hasSider>
+      {
+        templateId !== undefined ?
+
       <Header style={{ position: "fixed", zIndex: 1, width: "100%" }}>
         <Row>
           <Col span={12}>
@@ -123,7 +126,8 @@ const Playground = () => {
             />
           </Col>
         </Row>
-      </Header>
+      </Header> : null
+      }
       <Sider
         trigger={null}
         collapsible
@@ -176,7 +180,11 @@ const Playground = () => {
             visible={closeable}
             maskClosable={templateId !== undefined}
             getContainer={false}
-            maskStyle={{ backgroundColor: "#5c18ff78" }}
+            maskStyle={
+              templateId !== undefined
+                ? { backgroundColor: "#5c18ff78" }
+                : { backgroundColor: "#7846ff" }
+            }
           >
             <List
               itemLayout="horizontal"
