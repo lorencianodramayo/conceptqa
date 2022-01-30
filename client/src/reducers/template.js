@@ -6,7 +6,7 @@ export const templateSlice = createSlice({
     reducers: {
         template: (state, action) => {
             state.value = action.payload
-        },
+        }
     },
 });
 

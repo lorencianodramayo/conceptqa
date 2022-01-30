@@ -7,12 +7,20 @@ import { Provider } from 'react-redux';
 import templateReducer from "./reducers/template";
 import counterReducer from "./reducers/counter";
 import dynamicElementsReducer from './reducers/dynamicElements';
+import sidePanelReducer from "./reducers/sidePanel";
+import imageViewReducer from "./reducers/imageView";
+import caseViewReducer from "./reducers/caseView";
+import objectDynamicReducer from './reducers/objectDynamic';
 
 const store = configureStore({
   reducer: {
     template: templateReducer,
     counter: counterReducer,
     dynamicElements: dynamicElementsReducer,
+    sidePanel: sidePanelReducer,
+    imageView: imageViewReducer,
+    caseView: caseViewReducer,
+    objectDynamic: objectDynamicReducer,
   },
 });
 

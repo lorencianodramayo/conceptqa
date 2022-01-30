@@ -2,7 +2,7 @@ import React from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { useParams, useNavigate } from "react-router-dom";
 import axios from 'axios';
-import ReactCountryFlag from "react-country-flag";
+//import ReactCountryFlag from "react-country-flag";
 import {
   Layout,
   Menu,
@@ -12,24 +12,25 @@ import {
   Row,
   Col,
   Button,
-  Divider,
 } from "antd";
 import Icon, {
   ExperimentOutlined,
   PictureOutlined,
   LayoutOutlined,
   BlockOutlined,
-  EyeFilled,
+  MenuUnfoldOutlined,
+  MenuFoldOutlined,
 } from "@ant-design/icons";
 
 import Iframe from "./Iframe";
 import Sidebar from "./Sidebar";
-import Tselect from "./Tselect";
 import logo from "../assets/main-logo.svg";
 
 import { GoogleSvg  } from "../assets/icons";
 
 import { template } from '../reducers/template';
+import { sidePanel } from "../reducers/sidePanel";
+import { objectDynamic } from "../reducers/objectDynamic";
 
 const GoogleIcon = (props) => <Icon component={GoogleSvg} {...props} />;
 const { Header, Content, Sider } = Layout;
@@ -41,6 +42,7 @@ const Playground = () => {
   const { playgroundId, templateId } = useParams();
 
   const temp = useSelector((state) => state.template.value);
+  const side = useSelector((state) => state.sidePanel.value);
   
   const [closeable, setCloseable] = React.useState(true);
   const [templates, setTemplates] = React.useState([]);
@@ -61,6 +63,7 @@ const Playground = () => {
           .get("/PlaygroundAPI/template", { params: { id: templateId } })
           .then((res) => {
             dispatch(template(res.data));
+            dispatch(objectDynamic(res.data.defaultValues));
           });
     }
     
@@ -68,14 +71,20 @@ const Playground = () => {
 
   const showDrawer = () => {
     setCloseable(true);
+    dispatch(sidePanel(true));
   };
 
   const onClose = () => {
     setCloseable(false);
+    dispatch(sidePanel(false));
   };
   
   const templateList = (e) => {
     navigate(`/playground/${playgroundId}/template/${e}`);
+  }
+
+  const showSidePanel = () => {
+      dispatch(sidePanel(!side));
   }
 
   return (
@@ -94,7 +103,7 @@ const Playground = () => {
                 Assets
               </Menu.Item>
               <Menu.Item key="3" icon={<BlockOutlined />}>
-                Tearsheet
+                Preview
               </Menu.Item>
             </Menu>
           </Col>
@@ -108,8 +117,9 @@ const Playground = () => {
             }}
           >
             <Button
-              type="link"
-              icon={<ReactCountryFlag countryCode="IT" svg />}
+              type="primary"
+              icon={<LayoutOutlined />}
+              onClick={showDrawer}
             />
           </Col>
         </Row>
@@ -117,7 +127,7 @@ const Playground = () => {
       <Sider
         trigger={null}
         collapsible
-        collapsed={!Object.keys(temp).includes("defaultValues")}
+        collapsed={side}
         collapsedWidth={0}
         theme="light"
         width={350}
@@ -137,35 +147,17 @@ const Playground = () => {
         style={{ marginTop: 28, backgroundColor: "#fff" }}
       >
         <Content style={{ margin: "20px 16px 0", overflow: "initial" }}>
-          <Row
-            style={
-              !Object.keys(temp).includes("defaultValues")
-                ? { width: "calc(100vw - 31px)" }
-                : { width: "calc(100vw - 380px)" }
-            }
-          >
-            <Col span={12}>
+          <Row style={{ width: "100%" }}>
+            <Col span={12} className="breadcrumbs">
+              <Button
+                type="link"
+                icon={!side ? <MenuFoldOutlined /> : <MenuUnfoldOutlined />}
+                onClick={showSidePanel}
+              />
               <Breadcrumb style={{ margin: "16px 0" }}>
                 <Breadcrumb.Item>{temp.name}</Breadcrumb.Item>
                 <Breadcrumb.Item>{`${temp.width}x${temp.height}`}</Breadcrumb.Item>
               </Breadcrumb>
-            </Col>
-            <Col
-              span={12}
-              style={{
-                alignItems: "center",
-                display: "flex",
-                justifyContent: "flex-end",
-              }}
-            >
-              <Button type="link" icon={<EyeFilled />} />
-              <Tselect />
-              <Divider type="vertical" />
-              <Button
-                type="primary"
-                icon={<LayoutOutlined />}
-                onClick={showDrawer}
-              />
             </Col>
           </Row>
           <div className="site-layout-content">

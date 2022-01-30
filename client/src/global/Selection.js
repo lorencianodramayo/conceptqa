@@ -6,8 +6,8 @@ const { Option } = Select;
 const Selection = (props) => {
   return (
     <React.Fragment>
-      <Form.Item name={props.label} label={props.label}>
-        <Select defaultValue={props.value}>
+      <Form.Item name={props.label} label={props.label} required>
+        <Select>
           {props.options.split(",").map((pval, pindex) => {
             return (
               <Option

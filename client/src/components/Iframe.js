@@ -6,8 +6,9 @@ import { useSelector, useDispatch } from "react-redux";
 import { Spin } from "antd";
 
 import { counter } from "../reducers/counter";
-import { template } from '../reducers/template';
+import { template } from "../reducers/template";
 import { dynamicElements } from "../reducers/dynamicElements";
+import { sidePanel } from "../reducers/sidePanel";
 
 const Iframe = () => {
     const dispatch = useDispatch();
@@ -16,6 +17,7 @@ const Iframe = () => {
     const temp = useSelector((state) => state.template.value);
     const count = useSelector((state) => state.counter.value);
     const dynamic = useSelector((state) => state.dynamicElements.value);
+    const objects = useSelector((state) => state.objectDynamic.value);
 
     const [visibleFrame, setVisibleFrame] = React.useState(true);
 
@@ -29,27 +31,35 @@ const Iframe = () => {
         window.addEventListener("message", (event) => getDynamic(event));
 
         //check if data exist
-        setTimeout(() => {
+        
             if (
               Object.keys(dynamic).length > 0 &&
               Object.keys(temp).includes("defaultValues") === false
             ) {
-              axios
-                .put("/PlaygroundAPI/update", {
-                  _id: templateId,
-                  data: {
-                    defaultValues: dynamic.defaultValues,
-                    possibleValues: dynamic.possibleValues,
-                  },
-                })
-                .then((res) => {
-                  dispatch(template(res.data));
-                  dispatch(counter(count + 1));
-                });
+              setTimeout(() => {
+                axios
+                  .put("/PlaygroundAPI/update", {
+                    _id: templateId,
+                    data: {
+                      defaultValues: dynamic.defaultValues,
+                      possibleValues: dynamic.possibleValues,
+                    },
+                  })
+                  .then((res) => {
+                    dispatch(template(res.data));
+                    dispatch(counter(count + 1));
+                  });
+              }, 1000);
             } else {
+              dispatch(sidePanel(false));
               setVisibleFrame(false);
+              e.target.contentWindow.postMessage(
+                objects,
+                `https://storage.googleapis.com/${temp.url}/${
+                  temp.uid
+                }/${decodeURIComponent(temp.directory)}/index.html`
+              );
             }
-        }, 1000)
     }
     
     const getDynamic = (e) => {
@@ -70,7 +80,7 @@ const Iframe = () => {
             <Spin spinning={visibleFrame} delay={500}>
               <Frame
                 key={count}
-                url={`https://storage.googleapis.com/${temp.url}/${temp.uid}/${temp.directory}/index.html`}
+                url={`https://storage.googleapis.com/${temp.url}/${temp.uid}/${decodeURIComponent(temp.directory)}/index.html`}
                 width={`${temp.width}px`}
                 height={`${temp.height}px`}
                 id="innov-iframe"

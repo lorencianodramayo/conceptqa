@@ -114,6 +114,10 @@
       z-index: 9;
       position: fixed;
       background: #fff;
+      .breadcrumbs{
+        display: flex;
+        align-items: center;
+      }
     }
     .site-layout-content{
       margin-top: 54px;
@@ -172,19 +176,35 @@
 .Sidebar{
     margin: 4em 0.5em 0.5em 0.5em;
     height: calc(100vh - 9vh);
+    .sideButtons{
+      width: 3px;
+      float: right;
+      position: absolute;
+      z-index: 99999;
+      right: 18px;
+      top: 46vh;
+      .ant-btn{
+        margin-bottom: 0.2em;
+      }
+    }
     .ant-card{
       height: inherit;
       .ant-card-body{
         overflow: scroll;
         height: calc(100Vh - 9.5em);
-        .ant-collapse-header{
-          padding: 0;
-        }
-        .ant-collapse-content{
-          .ant-collapse-content-box{
-            padding: 0.5em 0em;
+        .ant-collapse{
+          top: -27px;
+          position: relative;
+          .ant-collapse-header{
+            padding: 0;
+          }
+          .ant-collapse-content{
+            .ant-collapse-content-box{
+              padding: 0.5em 0em;
+            }
           }
         }
+
         .ant-row{
           .ant-col{
             .btnImage{
@@ -195,8 +215,15 @@
               justify-content: center;
               align-items: center;
               overflow: hidden;
-              .ant-image-img{
-                vertical-align: middle;
+              .ant-image{
+                height: -webkit-fill-available;
+                width: -webkit-fill-available;
+                display: flex;
+                align-items: center;
+                overflow: hidden;
+                .ant-image-img{
+                  vertical-align: middle;
+                }
               }
             }
           }

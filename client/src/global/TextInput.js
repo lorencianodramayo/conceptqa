@@ -1,8 +1,8 @@
 import React from "react";
+import { useSelector } from "react-redux";
 import {
   Form,
   Input,
-  Button,
   Collapse,
   Radio,
   Row,
@@ -11,8 +11,6 @@ import {
   Space,
 } from "antd";
 import Icon, {
-  PlusSquareOutlined,
-  MinusSquareOutlined,
   MediumOutlined,
 } from "@ant-design/icons";
 
@@ -27,81 +25,57 @@ const SentenceCaseIcon = (props) => (
 );
 
 const TextInput = (props) => {
-  const [activeKey, setActiveKey] = React.useState(0);
+  const cases = useSelector((state) => state.caseView.value);
   return (
     <React.Fragment>
       <Form.Item
+        required
         name={props.label}
         className="label"
-        label={
+        label={props.label}
+      >
+        <Input/>
+      </Form.Item>
+
+      <Collapse
+        bordered={false}
+        activeKey={cases}
+        expandIconPosition="right"
+        ghost={true}
+      >
+        <Panel showArrow={false} header={null} key={1}>
           <Row>
-            <Col span={9}>{props.label}</Col>
-            <Col span={7} offset={8}>
-              <Button
-                icon={
-                  activeKey === 1 ? (
-                    <MinusSquareOutlined />
-                  ) : (
-                    <PlusSquareOutlined />
-                  )
-                }
-                size="small"
-                type={activeKey === 1 ? "link" : "text"}
-                onClick={() => setActiveKey(activeKey === 1 ? 0 : 1)}
-              />
+            <Col span={12}>
+              <Radio.Group size="small" onBlur={() => console.log("hello")}>
+                <Radio.Button value="a">
+                  <SentenceCaseIcon />
+                </Radio.Button>
+                <Radio.Button value="b">
+                  <UpperCaseIcon />
+                </Radio.Button>
+                <Radio.Button value="c">
+                  <LowerCaseIcon />
+                </Radio.Button>
+              </Radio.Group>
+            </Col>
+            <Col
+              span={12}
+              style={{ display: "flex", justifyContent: "flex-end" }}
+            >
+              <Space>
+                <InputNumber
+                  addonBefore={<MediumOutlined />}
+                  min={1}
+                  value={props.content !== undefined ? props.content.split("").length : null}
+                  placeholder="Max"
+                  size="small"
+                  style={{ width: "110px" }}
+                />
+              </Space>
             </Col>
           </Row>
-        }
-        rules={[
-          {
-            required: true,
-          },
-        ]}
-      >
-        <Collapse
-          bordered={false}
-          activeKey={activeKey}
-          expandIconPosition="right"
-          ghost={true}
-        >
-          <Panel
-            showArrow={false}
-            header={<Input value={props.content} />}
-            key={1}
-          >
-            <Row>
-              <Col span={12}>
-                <Radio.Group size="small" onBlur={() => console.log("hello")}>
-                  <Radio.Button value="a">
-                    <SentenceCaseIcon />
-                  </Radio.Button>
-                  <Radio.Button value="b">
-                    <UpperCaseIcon />
-                  </Radio.Button>
-                  <Radio.Button value="c">
-                    <LowerCaseIcon />
-                  </Radio.Button>
-                </Radio.Group>
-              </Col>
-              <Col
-                span={12}
-                style={{ display: "flex", justifyContent: "flex-end" }}
-              >
-                <Space>
-                  <InputNumber
-                    addonBefore={<MediumOutlined />}
-                    min={1}
-                    value={props.content.split("").length}
-                    placeholder="Max"
-                    size="small"
-                    style={{ width: "110px" }}
-                  />
-                </Space>
-              </Col>
-            </Row>
-          </Panel>
-        </Collapse>
-      </Form.Item>
+        </Panel>
+      </Collapse>
     </React.Fragment>
   );
 };
