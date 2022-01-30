@@ -54,15 +54,17 @@ const Iframe = () => {
               }, 1000);
             } else {
               if(Object.keys(objects).length > 0){
-                dispatch(sidePanel(false));
-                setVisibleFrame(false);
+                setTimeout(()=> {
+                  dispatch(sidePanel(false));
+                  setVisibleFrame(false);
 
-                e.target.contentWindow.postMessage(
-                  objects,
-                  `https://storage.googleapis.com/${temp.url}/${
-                    temp.uid
-                  }/${decodeURIComponent(temp.directory)}/index.html`
-                );
+                  e.target.contentWindow.postMessage(
+                    objects,
+                    `https://storage.googleapis.com/${temp.url}/${
+                      temp.uid
+                    }/${decodeURIComponent(temp.directory)}/index.html`
+                  );
+                },500)
               }
             }
     }
