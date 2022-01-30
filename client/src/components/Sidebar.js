@@ -159,8 +159,14 @@ const Sidebar = () => {
                           "currency",
                         ].some((t) => dv.toLowerCase().includes(t))
                       ) {
-                        return (
+                        return !dv.toLowerCase().includes("color") ? (
                           <TextInput
+                            label={dv}
+                            content={objects[dv]}
+                            key={index}
+                          />
+                        ) : (
+                          <NormalText
                             label={dv}
                             content={objects[dv]}
                             key={index}
