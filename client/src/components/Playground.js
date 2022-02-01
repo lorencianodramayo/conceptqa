@@ -1,6 +1,6 @@
 import React from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { useParams, useNavigate } from "react-router-dom";
+import { useParams, useNavigate, Link } from "react-router-dom";
 import axios from 'axios';
 //import ReactCountryFlag from "react-country-flag";
 import {
@@ -67,7 +67,7 @@ const Playground = () => {
             dispatch(objectDynamic(res.data.defaultValues));
           });
     }
-    
+    dispatch(sidePanel(true));
   }, [dispatch, playgroundId, templateId]);
 
   const showDrawer = () => {
@@ -88,6 +88,7 @@ const Playground = () => {
       dispatch(sidePanel(!side));
   }
 
+
   return (
     <Layout className="Playground" hasSider>
       {templateId !== undefined ? (
@@ -105,7 +106,9 @@ const Playground = () => {
                   Assets
                 </Menu.Item>
                 <Menu.Item key="3" icon={<BlockOutlined />}>
-                  Preview
+                  <Link to={`/preview/${playgroundId}`}>
+                    Preview
+                  </Link>
                 </Menu.Item>
               </Menu>
             </Col>
@@ -158,7 +161,7 @@ const Playground = () => {
       >
         <Content style={{ margin: "20px 16px 0", overflow: "initial" }}>
           {temp.width !== undefined ? (
-            <Row style={{ width: "100%", position: 'fixed' }}>
+            <Row style={{ width: "100%", position: "fixed" }}>
               <Col span={12} className="breadcrumbs">
                 <Button
                   type="link"
