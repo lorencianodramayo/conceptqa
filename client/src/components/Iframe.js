@@ -22,7 +22,6 @@ const Iframe = () => {
     const count = useSelector((state) => state.counter.value);
     const dynamic = useSelector((state) => state.dynamicElements.value);
     const objects = useSelector((state) => state.objectDynamic.value);
-    const pPause = useSelector((state) => state.playPause.value);
 
     const [visibleFrame, setVisibleFrame] = React.useState(true);
 
@@ -57,24 +56,25 @@ const Iframe = () => {
                   });
               }, 1000);
             } else {
-              if(Object.keys(objects).length > 0){
-                setTimeout(()=> {
-                  dispatch(sidePanel(false));
-                  setVisibleFrame(false);
-                  dispatch(playPause(false));
+              if (objects !== undefined) {
+                if (Object.keys(objects).length > 0) {
+                  setTimeout(() => {
+                    dispatch(sidePanel(false));
+                    setVisibleFrame(false);
+                    dispatch(playPause(false));
 
-                  document
-                    .querySelector(".playground-iframe")
-                    .contentWindow.postMessage(
-                      objects,
-                      `https://storage.googleapis.com/${temp.url}/${
-                        temp.uid
-                      }/${decodeURIComponent(temp.directory)}/index.html`
-                    );
-                },500)
+                    document
+                      .querySelector(".playground-iframe")
+                      .contentWindow.postMessage(
+                        objects,
+                        `https://storage.googleapis.com/${temp.url}/${
+                          temp.uid
+                        }/${decodeURIComponent(temp.directory)}/index.html`
+                      );
+                  }, 500);
+                }
               }
             }
-
     }
     
     const getDynamic = (e) => {
