@@ -26,7 +26,7 @@ const FrameControl = () => {
   const PlayPauseCreative = () => {
     dispatch(playPause(!pPause));
     document
-      .querySelector(".innov-iframe")
+      .querySelector(".playground-iframe")
       .contentWindow.postMessage(
         !pPause ? "pause" : "play",
         `https://storage.googleapis.com/${temp.url}/${

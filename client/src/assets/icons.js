@@ -145,7 +145,7 @@ export const GoogleSvg = () => (
 
 export const CreativeSvg = () => (
   <svg
-    enable-background="new 0 0 24 24"
+    enableBackground="new 0 0 24 24"
     height="13px"
     width="13px"
     viewBox="0 0 24 24"

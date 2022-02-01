@@ -63,15 +63,18 @@ const Iframe = () => {
                   setVisibleFrame(false);
                   dispatch(playPause(false));
 
-                  e.target.contentWindow.postMessage(
-                    objects,
-                    `https://storage.googleapis.com/${temp.url}/${
-                      temp.uid
-                    }/${decodeURIComponent(temp.directory)}/index.html`
-                  );
+                  document
+                    .querySelector(".playground-iframe")
+                    .contentWindow.postMessage(
+                      objects,
+                      `https://storage.googleapis.com/${temp.url}/${
+                        temp.uid
+                      }/${decodeURIComponent(temp.directory)}/index.html`
+                    );
                 },500)
               }
             }
+
     }
     
     const getDynamic = (e) => {
@@ -82,6 +85,7 @@ const Iframe = () => {
       ) {
         dispatch(dynamicElements(e.data));
         dispatch(counter(count + 1));
+        console.log(e.data.type)
       }
     }
 
@@ -92,11 +96,13 @@ const Iframe = () => {
             <Spin spinning={visibleFrame} delay={500}>
               <Frame
                 key={count}
-                url={`https://storage.googleapis.com/${temp.url}/${temp.uid}/${decodeURIComponent(temp.directory)}/index.html`}
+                url={`https://storage.googleapis.com/${temp.url}/${
+                  temp.uid
+                }/${decodeURIComponent(temp.directory)}/index.html`}
                 width={`${temp.width}px`}
                 height={`${temp.height}px`}
-                id="innov-iframe"
-                className="innov-iframe"
+                id="playground-iframe"
+                className="playground-iframe"
                 display="initial"
                 position="relative"
                 onLoad={(e) => loaded(e)}
