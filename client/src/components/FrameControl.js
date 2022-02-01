@@ -24,11 +24,11 @@ const FrameControl = () => {
   const pPause = useSelector((state) => state.playPause.value);
 
   const PlayPauseCreative = () => {
-    dispatch(playPause(!pPause));
+    dispatch(playPause({ paused: !pPause.paused, visible: pPause.visible }));
     document
       .querySelector(".playground-iframe")
       .contentWindow.postMessage(
-        !pPause ? "pause" : "play",
+        !pPause.paused ? "pause" : "play",
         `https://storage.googleapis.com/${temp.url}/${
           temp.uid
         }/${decodeURIComponent(temp.directory)}/index.html`
@@ -37,7 +37,7 @@ const FrameControl = () => {
 
   const RefreshCreative = () => {
       dispatch(counter(count + 1));
-      dispatch(playPause(true));
+      dispatch(playPause({ paused: true, visible: false }));
   };
 
   return (
@@ -60,8 +60,10 @@ const FrameControl = () => {
                 <Button
                   type="text"
                   size="small"
-                  style={{ color: "#f22176" }}
-                  icon={pPause? <PlayCircleOutlined /> : <PauseCircleOutlined />}
+                  style={pPause.visible? { color: "#f22176", display:'inline-block' } : { display: 'none' }}
+                  icon={
+                    pPause.paused? <PlayCircleOutlined /> : <PauseCircleOutlined />
+                  }
                   onClick={PlayPauseCreative}
                 />
               </Col>

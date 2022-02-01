@@ -2,7 +2,7 @@ import { createSlice } from "@reduxjs/toolkit";
 
 export const playPauseSlice = createSlice({
   name: "playPause",
-  initialState: { value: true },
+  initialState: { value: { paused: true, visible: false } },
   reducers: {
     playPause: (state, action) => {
       state.value = action.payload;

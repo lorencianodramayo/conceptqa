@@ -61,7 +61,7 @@ const Iframe = () => {
                   setTimeout(() => {
                     dispatch(sidePanel(false));
                     setVisibleFrame(false);
-                    dispatch(playPause(false));
+                    dispatch(playPause({ paused: false, visible: true}));
 
                     document
                       .querySelector(".playground-iframe")
@@ -85,7 +85,12 @@ const Iframe = () => {
       ) {
         dispatch(dynamicElements(e.data));
         dispatch(counter(count + 1));
-        console.log(e.data.type)
+      }else{
+        if (e.data.type === "SCREENSHOT_STOP"){
+          setTimeout(()=> {
+            dispatch(playPause({ paused: true, visible: false }));
+          }, 1000);
+        }
       }
     }
 
@@ -93,7 +98,11 @@ const Iframe = () => {
       <React.Fragment>
         {Object.keys(temp).length > 0 ? (
           <div className="Iframe">
-            <Spin spinning={visibleFrame} delay={500}>
+            <Spin
+              spinning={visibleFrame}
+              delay={500}
+              style={{ maxHeight: "100%" }}
+            >
               <Frame
                 key={count}
                 url={`https://storage.googleapis.com/${temp.url}/${
@@ -107,8 +116,8 @@ const Iframe = () => {
                 position="relative"
                 onLoad={(e) => loaded(e)}
               />
-              <FrameControl />
             </Spin>
+            <FrameControl />
           </div>
         ) : null}
       </React.Fragment>
