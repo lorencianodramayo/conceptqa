@@ -11,6 +11,7 @@ import sidePanelReducer from "./reducers/sidePanel";
 import imageViewReducer from "./reducers/imageView";
 import caseViewReducer from "./reducers/caseView";
 import objectDynamicReducer from './reducers/objectDynamic';
+import playPauseReducer from './reducers/playPause';
 
 const store = configureStore({
   reducer: {
@@ -21,6 +22,7 @@ const store = configureStore({
     imageView: imageViewReducer,
     caseView: caseViewReducer,
     objectDynamic: objectDynamicReducer,
+    playPause: playPauseReducer,
   },
 });
 

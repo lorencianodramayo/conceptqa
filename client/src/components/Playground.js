@@ -158,7 +158,7 @@ const Playground = () => {
       >
         <Content style={{ margin: "20px 16px 0", overflow: "initial" }}>
           {temp.width !== undefined ? (
-            <Row style={{ width: "100%" }}>
+            <Row style={{ width: "100%", position: 'fixed' }}>
               <Col span={12} className="breadcrumbs">
                 <Button
                   type="link"

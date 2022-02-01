@@ -10,6 +10,9 @@ import { template } from "../reducers/template";
 import { dynamicElements } from "../reducers/dynamicElements";
 import { sidePanel } from "../reducers/sidePanel";
 import { objectDynamic } from "../reducers/objectDynamic";
+import { playPause } from '../reducers/playPause';
+
+import FrameControl from './FrameControl';
 
 const Iframe = () => {
     const dispatch = useDispatch();
@@ -19,6 +22,7 @@ const Iframe = () => {
     const count = useSelector((state) => state.counter.value);
     const dynamic = useSelector((state) => state.dynamicElements.value);
     const objects = useSelector((state) => state.objectDynamic.value);
+    const pPause = useSelector((state) => state.playPause.value);
 
     const [visibleFrame, setVisibleFrame] = React.useState(true);
 
@@ -57,6 +61,7 @@ const Iframe = () => {
                 setTimeout(()=> {
                   dispatch(sidePanel(false));
                   setVisibleFrame(false);
+                  dispatch(playPause(false));
 
                   e.target.contentWindow.postMessage(
                     objects,
@@ -96,6 +101,7 @@ const Iframe = () => {
                 position="relative"
                 onLoad={(e) => loaded(e)}
               />
+              <FrameControl />
             </Spin>
           </div>
         ) : null}
