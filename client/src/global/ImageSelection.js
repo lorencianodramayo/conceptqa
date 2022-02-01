@@ -1,11 +1,12 @@
 import React from 'react';
 import { useSelector } from "react-redux";
-import { Form, Button, Image, Modal, Card, Row, Col } from "antd";
+import { Form, Button, Image, Modal, Card, Row, Col, Input } from "antd";
 import { HighlightOutlined } from "@ant-design/icons";
 
 const ImageSelection = (props) => {
     const temp = useSelector((state) => state.template.value);
     const image = useSelector((state) => state.imageView.value);
+    const imgList = useSelector((state) => state.imageList.value);
 
     const [modal2Visible, setModal2Visible] = React.useState(false);
 
@@ -47,10 +48,11 @@ const ImageSelection = (props) => {
           visible={modal2Visible}
           footer={null}
           onCancel={() => setModal2Visible(false)}
-          bodyStyle={{height: '80vh', overflow: 'scroll'}}
+          bodyStyle={{ height: "80vh", overflow: "scroll" }}
         >
           <Row gutter={[16, 16]}>
-            {[1, 2, 3, 4, 5, 6, 7, 8, 9, 10].map((a, i) => {
+            {imgList.map((data, i) => {
+              return data.assets.map((images, index) => {
               return (
                 <Col span={6} key={i}>
                   <Card bodyStyle={{ padding: "0.3em", height: "200px" }}>
@@ -63,17 +65,20 @@ const ImageSelection = (props) => {
                         width: "-webkit-fill-available",
                       }}
                     >
-                      <Image
-                        src="https://storage.googleapis.com/adlib-showcase-bucket/b6d7b7b0-8347-11ec-beab-858d76869a9e/300x600-Specsavers Global/300x600_frame1.jpg"
-                        preview={{
-                          visible: false,
-                          mask: "hello",
-                        }}
-                      />
+                
+                    <Image
+                      src={`https://storage.googleapis.com/${data.url}/${data.uid}/${data.directory}/${images}`}
+                      preview={{
+                        visible: false,
+                        mask: images,
+                      }}
+                    />
+                      
                     </div>
                   </Card>
                 </Col>
               );
+              })
             })}
           </Row>
         </Modal>

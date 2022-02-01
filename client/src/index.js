@@ -12,6 +12,7 @@ import imageViewReducer from "./reducers/imageView";
 import caseViewReducer from "./reducers/caseView";
 import objectDynamicReducer from './reducers/objectDynamic';
 import playPauseReducer from './reducers/playPause';
+import imageListReducer from './reducers/imageList';
 
 const store = configureStore({
   reducer: {
@@ -23,6 +24,7 @@ const store = configureStore({
     caseView: caseViewReducer,
     objectDynamic: objectDynamicReducer,
     playPause: playPauseReducer,
+    imageList: imageListReducer,
   },
 });
 

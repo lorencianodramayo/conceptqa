@@ -31,6 +31,7 @@ import { GoogleSvg  } from "../assets/icons";
 import { template } from '../reducers/template';
 import { sidePanel } from "../reducers/sidePanel";
 import { objectDynamic } from "../reducers/objectDynamic";
+import { imageList } from "../reducers/imageList";
 
 const GoogleIcon = (props) => <Icon component={GoogleSvg} {...props} />;
 const { Header, Content, Sider } = Layout;
@@ -44,6 +45,7 @@ const Playground = () => {
   const temp = useSelector((state) => state.template.value);
   const side = useSelector((state) => state.sidePanel.value);
   const objects = useSelector((state) => state.objectDynamic.value);
+  const imgList = useSelector((state) => state.imageList.value);
   
   const [closeable, setCloseable] = React.useState(true);
   const [templates, setTemplates] = React.useState([]);
@@ -55,18 +57,26 @@ const Playground = () => {
       .then((res) => {
         setTemplates(res.data.templates);
       });
-      
-    //if has template id
-    if (templateId !== undefined) {
-        setCloseable(templateId === undefined);
 
-        axios
-          .get("/PlaygroundAPI/template", { params: { id: templateId } })
-          .then((res) => {
-            dispatch(template(res.data));
-            dispatch(objectDynamic(res.data.defaultValues));
-          });
-    }else{
+    if (imgList !== undefined) {
+      if(Object.keys(imgList).length <=0){
+        axios.get("/PlaygroundAPI/templateAll").then((res) => {
+          dispatch(imageList(res.data));
+        });
+      }
+    }
+
+    if (templateId !== undefined) {
+      //if has template id
+      setCloseable(templateId === undefined);
+
+      axios
+        .get("/PlaygroundAPI/template", { params: { id: templateId } })
+        .then((res) => {
+          dispatch(template(res.data));
+          dispatch(objectDynamic(res.data.defaultValues));
+        });
+    } else {
       dispatch(template({}));
       dispatch(objectDynamic({}));
     }

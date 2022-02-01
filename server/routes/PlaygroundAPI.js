@@ -22,6 +22,15 @@ router.get("/template", (req, res) => {
     });
 });
 
+router.get('/templateAll', (req,res) => {
+  TemplateModel.find({}, (error, success) => {
+    if (error) {
+      return res.status(500).json({ msg: "Sorry, internal server errors" });
+    }
+    return res.json(success);
+  });
+})
+
 router.put("/update", (req, res) => {
     if (Object.keys(req.body.data).length !== 0) {
       TemplateModel.findOneAndUpdate(

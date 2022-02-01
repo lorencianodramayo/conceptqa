@@ -34,7 +34,7 @@ const TextInput = (props) => {
         className="label"
         label={props.label}
       >
-        <Input />
+        <Input showCount={true}/>
       </Form.Item>
 
       <Collapse

@@ -3,20 +3,18 @@ const mongoose = require("mongoose");
 // Schema
 const Schema = mongoose.Schema;
 
-const TemplateSchema = new Schema({
+const AssetSchema = new Schema({
+  playgroundId: String,
   url: String,
   uid: String,
   directory: String,
   name: String,
   width: Number,
   height: Number,
-  defaultValues: Object,
-  possibleValues: Object,
-  assets: Array,
   date: {
     type: String,
     default: Date.now(),
   },
 });
 
-module.exports = mongoose.model("TemplateModel", TemplateSchema);
+module.exports = mongoose.model("AssetModel", AssetSchema);

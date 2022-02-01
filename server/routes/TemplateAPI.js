@@ -71,10 +71,11 @@ router.post("/upload", (req, res) => {
     //unzipping file
     if (req.files[0].mimetype.includes("zip")) {
       const zip = new AdmZip(req.files[0].buffer);
-      let html = '',
-      updatedIndex = '',
-      newFile,
-      count =0;
+      let html = "",
+        updatedIndex = "",
+        newFile,
+        count = 0,
+        arrAssets = [];
       //getting entries from zip file
       zip.getEntries().forEach((entries, index) => {
         //checking if its is a directory
@@ -114,6 +115,10 @@ router.post("/upload", (req, res) => {
             </script></html>`;
             //reconvert updated index to utf8
             entries.setData(Buffer.from(updatedIndex, "utf8"));
+          }else if([".png", ".jpg", ".jpeg", ".gif"].some((t) =>
+              entries.name.includes(t)
+            )){
+            arrAssets.push(entries.name);
           }
 
           //end if
@@ -144,6 +149,7 @@ router.post("/upload", (req, res) => {
                   .split("/")[0]
                   .split("-")[0]
                   .split("x")[1],
+                assets: arrAssets
               });
 
               //saving entries
