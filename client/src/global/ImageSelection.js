@@ -1,6 +1,6 @@
 import React from 'react';
 import { useSelector, useDispatch } from "react-redux";
-import { Form, Button, Image, Modal, Card, Row, Col, Input } from "antd";
+import { Form, Button, Image, Modal, Card, Row, Col } from "antd";
 import { HighlightOutlined } from "@ant-design/icons";
 
 //reducers
@@ -23,7 +23,6 @@ const ImageSelection = (props) => {
         [`${label}`]: url,
       });
 
-      console.log(props.forms.getFieldsValue());
       clearTimeout(timer);
 
       const newTimer = setTimeout(() => {
@@ -80,7 +79,7 @@ const ImageSelection = (props) => {
           bodyStyle={{ height: "80vh", overflow: "scroll" }}
         >
           <Row gutter={[16, 16]}>
-            {imgList !== undefined
+            {imgList.length > 0
               ? imgList.map((data, i) => {
                   return data.assets.map((images, index) => {
                     return (

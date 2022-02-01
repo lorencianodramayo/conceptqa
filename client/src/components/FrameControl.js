@@ -44,7 +44,7 @@ const FrameControl = () => {
     <div className="FrameControl">
       {temp.width !== undefined ? (
         <Row>
-          <Col span={12}>
+          <Col span={14}>
             <CreativeIcon style={{ color: "#f22176" }} />
             <Text style={{ color: "#f22176", fontSize: "11px" }}>
               {" "}
@@ -52,7 +52,7 @@ const FrameControl = () => {
             </Text>
           </Col>
           <Col
-            span={12}
+            span={10}
             style={{ display: "flex", justifyContent: "flex-end" }}
           >
             <Row>

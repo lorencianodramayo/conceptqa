@@ -1,5 +1,5 @@
 import React from "react";
-import { useSelector } from "react-redux";
+import { useSelector, useDispatch } from "react-redux";
 import {
   Form,
   Input,
@@ -16,6 +16,10 @@ import Icon, {
 
 import { UpperCaseSvg, LowerCaseSvg, SentenceCaseSvg } from "../assets/icons";
 
+import { counter } from "../reducers/counter";
+import { objectDynamic } from "../reducers/objectDynamic";
+import { playPause } from "../reducers/playPause";
+
 const { Panel } = Collapse;
 
 const UpperCaseIcon = (props) => <Icon component={UpperCaseSvg} {...props} />;
@@ -26,6 +30,45 @@ const SentenceCaseIcon = (props) => (
 
 const TextInput = (props) => {
   const cases = useSelector((state) => state.caseView.value);
+  const dispatch = useDispatch();
+  const count = useSelector((state) => state.counter.value);
+
+  const [timer, setTimer] = React.useState(null);
+
+  const textCase = (label, text, settings) => {
+    switch(settings){
+      case 'sentence':
+        props.forms.setFieldsValue({
+          [`${label}`]: text.replace(/\.\s+([a-z])[^.]|^(\s*[a-z])[^.]/g, (s) =>
+            s.replace(/([a-z])/, (s) => s.toUpperCase())
+          ),
+        });
+      break;
+      case 'upper':
+        props.forms.setFieldsValue({
+          [`${label}`]: text.toUpperCase(),
+        });
+      break;
+      case 'lower':
+        props.forms.setFieldsValue({
+          [`${label}`]: text.toLowerCase(),
+        });
+      break;
+      default: 
+        console.log('');
+      break;
+    }
+
+    clearTimeout(timer);
+
+    const newTimer = setTimeout(() => {
+      dispatch(objectDynamic(props.forms.getFieldsValue()));
+      dispatch(counter(count + 1));
+      dispatch(playPause({ paused: true, visible: false }));
+      setTimer(newTimer);
+    }, 2000);
+  }
+
   return (
     <React.Fragment>
       <Form.Item
@@ -46,14 +89,14 @@ const TextInput = (props) => {
         <Panel showArrow={false} header={null} key={1}>
           <Row>
             <Col span={12}>
-              <Radio.Group size="small" onBlur={() => console.log("hello")}>
-                <Radio.Button value="a">
+              <Radio.Group size="small" onChange={(e) => textCase(props.label, props.content, e.target.value)}>
+                <Radio.Button value="sentence">
                   <SentenceCaseIcon />
                 </Radio.Button>
-                <Radio.Button value="b">
+                <Radio.Button value="upper">
                   <UpperCaseIcon />
                 </Radio.Button>
-                <Radio.Button value="c">
+                <Radio.Button value="lower">
                   <LowerCaseIcon />
                 </Radio.Button>
               </Radio.Group>

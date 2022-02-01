@@ -2,7 +2,7 @@ import { createSlice } from "@reduxjs/toolkit";
 
 export const imageListSlice = createSlice({
   name: "imageList",
-  initialState: { value: {} },
+  initialState: { value: [] },
   reducers: {
     imageList: (state, action) => {
       state.value = action.payload;

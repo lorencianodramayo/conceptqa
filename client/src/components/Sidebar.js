@@ -1,14 +1,17 @@
 import React from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { Card, Form, Button, Row, Col, Tooltip } from "antd";
+import { Card, Form, Button, Row, Col, Tooltip, Popover, Radio } from "antd";
 
-import {
+import Icon, {
   PictureOutlined,
   FontSizeOutlined,
   SaveOutlined,
   TranslationOutlined,
   StrikethroughOutlined,
 } from "@ant-design/icons";
+
+//svg icons
+import { UpperCaseSvg, LowerCaseSvg, SentenceCaseSvg } from "../assets/icons";
 
 //globals
 import TextInput from "../global/TextInput";
@@ -21,6 +24,12 @@ import { counter } from "../reducers/counter";
 import { imageView } from '../reducers/imageView';
 import { caseView } from '../reducers/caseView';
 import { objectDynamic } from '../reducers/objectDynamic';
+
+const UpperCaseIcon = (props) => <Icon component={UpperCaseSvg} {...props} />;
+const LowerCaseIcon = (props) => <Icon component={LowerCaseSvg} {...props} />;
+const SentenceCaseIcon = (props) => (
+  <Icon component={SentenceCaseSvg} {...props} />
+);
 
 const Sidebar = () => {
   const dispatch = useDispatch();
@@ -80,13 +89,35 @@ const Sidebar = () => {
                 </Tooltip>
               </Col>
               <Col>
-                <Tooltip placement="right" title="Text Settings">
-                  <Button
-                    type={cases === 0 ? "default" : "primary"}
-                    icon={<FontSizeOutlined />}
-                    size="small"
-                    onClick={showTextSettings}
-                  />
+                <Tooltip
+                  placement="right"
+                  title={cases ? null : "Text Settings"}
+                >
+                  <Popover
+                    placement="rightTop"
+                    title="Global Text Case"
+                    content={
+                      <Radio.Group>
+                        <Radio.Button value="Aa">
+                          <SentenceCaseIcon />
+                        </Radio.Button>
+                        <Radio.Button value="AA">
+                          <UpperCaseIcon />
+                        </Radio.Button>
+                        <Radio.Button value="aa">
+                          <LowerCaseIcon />
+                        </Radio.Button>
+                      </Radio.Group>
+                    }
+                    visible={cases}
+                  >
+                    <Button
+                      type={cases === 0 ? "default" : "primary"}
+                      icon={<FontSizeOutlined />}
+                      size="small"
+                      onClick={showTextSettings}
+                    />
+                  </Popover>
                 </Tooltip>
               </Col>
               <Col>
@@ -164,6 +195,7 @@ const Sidebar = () => {
                             label={dv}
                             content={objects[dv]}
                             key={index}
+                            forms={form}
                           />
                         ) : (
                           <NormalText

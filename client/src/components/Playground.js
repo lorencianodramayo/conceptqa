@@ -15,7 +15,6 @@ import {
 } from "antd";
 import Icon, {
   ExperimentOutlined,
-  PictureOutlined,
   LayoutOutlined,
   BlockOutlined,
   MenuUnfoldOutlined,
@@ -59,7 +58,7 @@ const Playground = () => {
       });
 
     if (imgList !== undefined) {
-      if(Object.keys(imgList).length <=0){
+      if(imgList.length <=0){
         axios.get("/PlaygroundAPI/templateAll").then((res) => {
           dispatch(imageList(res.data));
         });
@@ -80,7 +79,7 @@ const Playground = () => {
       dispatch(template({}));
       dispatch(objectDynamic({}));
     }
-  }, [dispatch, playgroundId, templateId]);
+  }, [dispatch, imgList, playgroundId, templateId]);
 
   const showDrawer = () => {
     setCloseable(true);
@@ -117,9 +116,9 @@ const Playground = () => {
                 <Menu.Item key="1" icon={<ExperimentOutlined />}>
                   Playground
                 </Menu.Item>
-                <Menu.Item key="2" icon={<PictureOutlined />}>
+                {/* <Menu.Item key="2" icon={<PictureOutlined />}>
                   Assets
-                </Menu.Item>
+                </Menu.Item> */}
                 <Menu.Item key="3" icon={<BlockOutlined />}>
                   <Link to={`/preview/${playgroundId}`}>
                     Preview

@@ -3,7 +3,6 @@ import { useParams, Link } from "react-router-dom";
 import { Layout, Menu, Row, Col } from "antd";
 import {
   ExperimentOutlined,
-  PictureOutlined,
   BlockOutlined,
 } from "@ant-design/icons";
 
@@ -28,9 +27,6 @@ const Preview = () => {
             <Menu theme="dark" mode="horizontal" defaultSelectedKeys={["3"]}>
               <Menu.Item key="1" icon={<ExperimentOutlined />}>
                 <Link to={`/playground/${previewId}`}>Playground</Link>
-              </Menu.Item>
-              <Menu.Item key="2" icon={<PictureOutlined />}>
-                Assets
               </Menu.Item>
               <Menu.Item key="3" icon={<BlockOutlined />}>
                 Preview
