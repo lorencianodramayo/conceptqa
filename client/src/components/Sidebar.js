@@ -1,6 +1,6 @@
 import React from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { Card, Form, Image, Modal, Button, Row, Col, Tooltip } from "antd";
+import { Card, Form, Button, Row, Col, Tooltip } from "antd";
 
 import {
   PictureOutlined,
@@ -33,7 +33,6 @@ const Sidebar = () => {
   const count = useSelector((state) => state.counter.value);
 
   const [timer, setTimer] = React.useState(null);
-  const [modal2Visible, setModal2Visible] = React.useState(false);
 
   React.useEffect(() => {
       form.setFieldsValue(objects)
