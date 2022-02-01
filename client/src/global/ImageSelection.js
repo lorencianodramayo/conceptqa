@@ -1,14 +1,39 @@
 import React from 'react';
-import { useSelector } from "react-redux";
+import { useSelector, useDispatch } from "react-redux";
 import { Form, Button, Image, Modal, Card, Row, Col, Input } from "antd";
 import { HighlightOutlined } from "@ant-design/icons";
 
+//reducers
+import { counter } from "../reducers/counter";
+import { objectDynamic } from "../reducers/objectDynamic";
+import { playPause } from "../reducers/playPause";
+
 const ImageSelection = (props) => {
+    const dispatch = useDispatch();
     const temp = useSelector((state) => state.template.value);
     const image = useSelector((state) => state.imageView.value);
     const imgList = useSelector((state) => state.imageList.value);
+    const count = useSelector((state) => state.counter.value);
 
     const [modal2Visible, setModal2Visible] = React.useState(false);
+    const [timer, setTimer] = React.useState(null);
+
+    const updateImg = (label, url) => {
+      props.forms.setFieldsValue({
+        [`${label}`]: url,
+      });
+
+      console.log(props.forms.getFieldsValue());
+      clearTimeout(timer);
+
+      const newTimer = setTimeout(() => {
+        dispatch(objectDynamic(props.forms.getFieldsValue()));
+        dispatch(counter(count + 1));
+        dispatch(playPause({ paused: true, visible: false }));
+        setTimer(newTimer);
+        setModal2Visible(!modal2Visible);
+      }, 2000);
+    }
 
     return (
       <React.Fragment>
@@ -34,7 +59,11 @@ const ImageSelection = (props) => {
             >
               <Image
                 preview={{ visible: false, mask: <HighlightOutlined /> }}
-                src={`https://storage.googleapis.com/${temp.url}/${temp.uid}/${temp.directory}/${props.url}`}
+                src={
+                  props.url.includes("http")
+                    ? props.url
+                    : `https://storage.googleapis.com/${temp.url}/${temp.uid}/${temp.directory}/${props.url}`
+                }
               />
             </div>
           </Button>
@@ -51,35 +80,43 @@ const ImageSelection = (props) => {
           bodyStyle={{ height: "80vh", overflow: "scroll" }}
         >
           <Row gutter={[16, 16]}>
-            {imgList.map((data, i) => {
-              return data.assets.map((images, index) => {
-              return (
-                <Col span={6} key={i}>
-                  <Card bodyStyle={{ padding: "0.3em", height: "200px" }}>
-                    <div
-                      style={{
-                        padding: "0.2em",
-                        display: "flex",
-                        alignItems: "center",
-                        height: "-webkit-fill-available",
-                        width: "-webkit-fill-available",
-                      }}
-                    >
-                
-                    <Image
-                      src={`https://storage.googleapis.com/${data.url}/${data.uid}/${data.directory}/${images}`}
-                      preview={{
-                        visible: false,
-                        mask: images,
-                      }}
-                    />
-                      
-                    </div>
-                  </Card>
-                </Col>
-              );
-              })
-            })}
+            {imgList !== undefined
+              ? imgList.map((data, i) => {
+                  return data.assets.map((images, index) => {
+                    return (
+                      <Col span={6} key={index}>
+                        <Card
+                          bodyStyle={{ padding: "0.3em", height: "200px" }}
+                          onClick={() =>
+                            updateImg(
+                              props.label,
+                              `https://storage.googleapis.com/${data.url}/${data.uid}/${data.directory}/${images}`
+                            )
+                          }
+                        >
+                          <div
+                            style={{
+                              padding: "0.2em",
+                              display: "flex",
+                              alignItems: "center",
+                              height: "-webkit-fill-available",
+                              width: "-webkit-fill-available",
+                            }}
+                          >
+                            <Image
+                              src={`https://storage.googleapis.com/${data.url}/${data.uid}/${data.directory}/${images}`}
+                              preview={{
+                                visible: false,
+                                mask: images,
+                              }}
+                            />
+                          </div>
+                        </Card>
+                      </Col>
+                    );
+                  });
+                })
+              : null}
           </Row>
         </Modal>
       </React.Fragment>

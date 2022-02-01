@@ -145,6 +145,7 @@ const Sidebar = () => {
                           label={dv}
                           url={objects[dv]}
                           key={index}
+                          forms={form}
                         />
                       );
                     } else {
