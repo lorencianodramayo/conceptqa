@@ -118,7 +118,8 @@ router.post("/upload", (req, res) => {
           }else if([".png", ".jpg", ".jpeg", ".gif"].some((t) =>
               entries.name.includes(t)
             )){
-            arrAssets.push(entries.name);
+              entries.name.substring(0,2) !== "._" ?
+              arrAssets.push(entries.name) : null
           }
 
           //end if
