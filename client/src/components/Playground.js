@@ -66,8 +66,10 @@ const Playground = () => {
             dispatch(template(res.data));
             dispatch(objectDynamic(res.data.defaultValues));
           });
+    }else{
+      dispatch(template({}));
+      dispatch(objectDynamic({}));
     }
-    dispatch(sidePanel(true));
   }, [dispatch, playgroundId, templateId]);
 
   const showDrawer = () => {
@@ -88,6 +90,9 @@ const Playground = () => {
       dispatch(sidePanel(!side));
   }
 
+  const showPanels = () => {
+    dispatch(sidePanel(true));
+  }
 
   return (
     <Layout className="Playground" hasSider>
@@ -98,7 +103,7 @@ const Playground = () => {
               <div className="logo">
                 <img src={logo} alt="QA" />
               </div>
-              <Menu theme="dark" mode="horizontal" defaultSelectedKeys={["1"]}>
+              <Menu theme="dark" mode="horizontal" defaultSelectedKeys={["1"]} onClick={showPanels}>
                 <Menu.Item key="1" icon={<ExperimentOutlined />}>
                   Playground
                 </Menu.Item>
