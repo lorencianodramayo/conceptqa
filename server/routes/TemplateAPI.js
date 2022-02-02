@@ -89,19 +89,20 @@ router.post("/upload", (req, res) => {
             updatedIndex =
               html.split("</html>")[0] +
               `<script>
-                  setTimeout(() => {
+                 var dvData =  setInterval(() => {
                     parent.postMessage({
                       type: 'DEFAULT_VALUES',
                       defaultValues,
                       possibleValues: typeof possibleValues !== 'undefined'? possibleValues : {}
                     }, '*');
-                  }, 500);
+                  }, 1000);
 
                   if(typeof Adlib!=='undefined'){
                     Adlib.localTimeline = function(status){
                       status = status||null;
                       switch(status){
                           case "PLAY":
+                            clearInterval(dvData);
                             if(_obj.timelineEvent == null){
                                 var t = "0.0";
                                 _obj.timelineEvent = setInterval(function(){

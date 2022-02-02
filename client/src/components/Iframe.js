@@ -93,9 +93,10 @@ const Iframe = () => {
         setTimeout(() => {
           dispatch(playPause({ paused: true, visible: false }));
         }, 1000);
-      } else if (e.data.type === "SCREENSHOT_START") {
+      } else if (e.data.type === "SCREENSHOT_START" &&
+        Object.keys(dynamic).length > 0) {
         dispatch(creativeStarted(true));
-      } else if (e.data.type === "CREATIVE_TIME") {
+      } else if (e.data.type === "CREATIVE_TIME" && Object.keys(dynamic).length > 0) {
         dispatch(creativeTime(e.data.t));
       }
     }
