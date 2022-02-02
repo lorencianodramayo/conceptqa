@@ -212,7 +212,7 @@ const Playground = () => {
               templateId !== undefined
                 ? { backgroundColor: "#5c18ff78" }
                 : {
-                    backgroundImage: "url(https://source.unsplash.com/1600x900/?code)",
+                    backgroundImage: "linear-gradient(#e66465, #9198e5)",
                   }
             }
           >
