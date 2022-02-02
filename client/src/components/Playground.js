@@ -95,7 +95,6 @@ const Playground = () => {
   
   const templateList = (e) => {
     navigate(`/playground/${playgroundId}/template/${e}`);
-    dispatch(counter(count + 1))
   }
 
   const showSidePanel = () => {

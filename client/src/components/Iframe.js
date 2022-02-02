@@ -75,6 +75,14 @@ const Iframe = () => {
                           temp.uid
                         }/${decodeURIComponent(temp.directory)}/index.html`
                       );
+                    
+                    document
+                      .querySelector(".playground-iframe")
+                      .contentWindow.postMessage("time",
+                        `https://storage.googleapis.com/${temp.url}/${
+                          temp.uid
+                        }/${decodeURIComponent(temp.directory)}/index.html`
+                      );
                   }, 500);
                 }
               }

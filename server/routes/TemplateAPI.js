@@ -89,42 +89,13 @@ router.post("/upload", (req, res) => {
             updatedIndex =
               html.split("</html>")[0] +
               `<script>
-                 var dvData =  setInterval(() => {
+                 setTimeout(() => {
                     parent.postMessage({
                       type: 'DEFAULT_VALUES',
                       defaultValues,
                       possibleValues: typeof possibleValues !== 'undefined'? possibleValues : {}
                     }, '*');
-                  }, 1000);
-
-                  if(typeof Adlib!=='undefined'){
-                    Adlib.localTimeline = function(status){
-                      status = status||null;
-                      switch(status){
-                          case "PLAY":
-                            clearInterval(dvData);
-                            if(_obj.timelineEvent == null){
-                                var t = "0.0";
-                                _obj.timelineEvent = setInterval(function(){
-                                    t = (gsap.globalTimeline.time().toFixed(1)> 0.5)? gsap.globalTimeline.time().toFixed(1) : t ;
-                                    parent.postMessage({
-                                      type: 'CREATIVE_TIME', t
-                                    }, '*');
-                                }, 100);
-                            }
-                          break;
-                          case "PAUSE":
-                              clearInterval(_obj.timelineEvent);
-                              _obj.timelineEvent=null;
-                          break;
-                          case "END":
-                              clearInterval(_obj.timelineEvent);
-                              _obj.timelineEvent=null;
-                          break;
-                      }
-                    }
-                  }
-                  
+                  }, 500);
 
                   window.addEventListener("message",
                   (event) => {
@@ -133,8 +104,35 @@ router.post("/upload", (req, res) => {
                       }else{
                         if(event.data === "pause"){
                           gwd.auto_PauseBtnClick();
-                        }else{
+                        }else if(event.data === "play"){
                           gwd.auto_PlayBtnClick();
+                        }else{
+                          if(typeof Adlib!=='undefined'){
+                              Adlib.localTimeline = function(status){
+                                status = status||null;
+                                switch(status){
+                                    case "PLAY":
+                                      if(_obj.timelineEvent == null){
+                                          var t = "0.0";
+                                          _obj.timelineEvent = setInterval(function(){
+                                              t = (gsap.globalTimeline.time().toFixed(1)> 0.5)? gsap.globalTimeline.time().toFixed(1) : t ;
+                                              parent.postMessage({
+                                                type: 'CREATIVE_TIME', t
+                                              }, '*');
+                                          }, 100);
+                                      }
+                                    break;
+                                    case "PAUSE":
+                                        clearInterval(_obj.timelineEvent);
+                                        _obj.timelineEvent=null;
+                                    break;
+                                    case "END":
+                                        clearInterval(_obj.timelineEvent);
+                                        _obj.timelineEvent=null;
+                                    break;
+                                }
+                              }
+                            }
                         }
                       }
                   },
