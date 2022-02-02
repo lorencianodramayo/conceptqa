@@ -2,7 +2,6 @@ import React from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { useParams, useNavigate, Link } from "react-router-dom";
 import axios from 'axios';
-import Particles from "react-tsparticles";
 //import ReactCountryFlag from "react-country-flag";
 import {
   Layout,
