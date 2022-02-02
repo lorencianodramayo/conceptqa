@@ -11,6 +11,7 @@ import Icon, {
 import { counter } from "../reducers/counter";
 import { playPause } from "../reducers/playPause";
 import { creativeTime } from "../reducers/creativeTime";
+import { creativeStarted } from "../reducers/creativeStarted";
 
 import { CreativeSvg, DurationSvg } from "../assets/icons";
 
@@ -42,13 +43,14 @@ const FrameControl = () => {
   const RefreshCreative = () => {
       dispatch(counter(count + 1));
       dispatch(playPause({ paused: true, visible: false }));
-      dispatch(creativeTime(0.0));
+      dispatch(creativeTime(0));
+      dispatch(creativeStarted(false));
   };
 
   return (
     <React.Fragment>
       {temp.width !== undefined ? (
-        <div className="FrameControl" style={{width: `${temp.width}px`}}>
+        <div className="FrameControl" style={{ width: `${temp.width}px` }}>
           <Row>
             <Col span={16}>
               <Row gutter={[8, 0]}>
@@ -59,7 +61,7 @@ const FrameControl = () => {
                     {`${temp.width}x${temp.height}`}{" "}
                   </Text>
                 </Col>
-                <Col>
+                <Col style={cTime !== 0?{display:'block'} : {display:'none'}}>
                   <DurationIcon style={{ color: "#f22176" }} />
                   <Text style={{ color: "#f22176", fontSize: "10px" }}>
                     {"  "}

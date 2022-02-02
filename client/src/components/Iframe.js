@@ -12,6 +12,7 @@ import { sidePanel } from "../reducers/sidePanel";
 import { objectDynamic } from "../reducers/objectDynamic";
 import { playPause } from '../reducers/playPause';
 import { creativeTime } from '../reducers/creativeTime';
+import { creativeStarted } from "../reducers/creativeStarted";
 
 import FrameControl from './FrameControl';
 
@@ -23,6 +24,7 @@ const Iframe = () => {
     const count = useSelector((state) => state.counter.value);
     const dynamic = useSelector((state) => state.dynamicElements.value);
     const objects = useSelector((state) => state.objectDynamic.value);
+    const cStarted = useSelector((state) => state.creativeStarted.value);
 
     const [visibleFrame, setVisibleFrame] = React.useState(true);
 
@@ -34,7 +36,7 @@ const Iframe = () => {
 
     const loaded = (e) => {
         window.addEventListener("message", (event) => getDynamic(event));
-
+        dispatch(creativeTime(0));
         //check if data exist
         
             if (
@@ -60,6 +62,7 @@ const Iframe = () => {
               if (objects !== undefined) {
                 if (Object.keys(objects).length > 0) {
                   setTimeout(() => {
+                    
                     dispatch(sidePanel(false));
                     setVisibleFrame(false);
                     dispatch(playPause({ paused: false, visible: true}));
@@ -86,14 +89,14 @@ const Iframe = () => {
       ) {
         dispatch(dynamicElements(e.data));
         dispatch(counter(count + 1));
-      }else{
-        if (e.data.type === "SCREENSHOT_STOP"){
-          setTimeout(()=> {
-            dispatch(playPause({ paused: true, visible: false }));
-          }, 1000);
-        }else if(e.data.type === "CREATIVE_TIME"){
-          dispatch(creativeTime(e.data.t))
-        }
+      }else if (e.data.type === "SCREENSHOT_STOP") {
+        setTimeout(() => {
+          dispatch(playPause({ paused: true, visible: false }));
+        }, 1000);
+      } else if (e.data.type === "SCREENSHOT_START") {
+        dispatch(creativeStarted(true));
+      } else if (e.data.type === "CREATIVE_TIME") {
+        dispatch(creativeTime(e.data.t));
       }
     }
 
@@ -102,7 +105,7 @@ const Iframe = () => {
         {Object.keys(temp).length > 0 ? (
           <div className="Iframe">
             <Spin
-              spinning={visibleFrame}
+              spinning={!cStarted}
               delay={500}
               style={{ maxHeight: "100%" }}
             >

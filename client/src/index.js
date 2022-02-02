@@ -14,6 +14,7 @@ import objectDynamicReducer from './reducers/objectDynamic';
 import playPauseReducer from './reducers/playPause';
 import imageListReducer from './reducers/imageList';
 import creativeTimeReducer from './reducers/creativeTime';
+import creativeStartedReducer from './reducers/creativeStarted';
 
 const store = configureStore({
   reducer: {
@@ -27,6 +28,7 @@ const store = configureStore({
     playPause: playPauseReducer,
     imageList: imageListReducer,
     creativeTime: creativeTimeReducer,
+    creativeStarted: creativeStartedReducer,
   },
 });
 
