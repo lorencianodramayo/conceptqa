@@ -96,6 +96,31 @@ router.post("/upload", (req, res) => {
                       possibleValues: typeof possibleValues !== 'undefined'? possibleValues : {}
                     }, '*');
                   }, 500);
+
+                  Adlib.localTimeline = function(status){
+                    status = status||null;
+                    switch(status){
+                        case "PLAY":
+                          if(_obj.timelineEvent == null){
+                              var t = "0.0";
+                              _obj.timelineEvent = setInterval(function(){
+                                  t = (gsap.globalTimeline.time().toFixed(1)> 0.5)? gsap.globalTimeline.time().toFixed(1) : t ;
+                                  parent.postMessage({
+                                    type: 'CREATIVE_TIME', t
+                                  }, '*');
+                              }, 100);
+                          }
+                        break;
+                        case "PAUSE":
+                            clearInterval(_obj.timelineEvent);
+                            _obj.timelineEvent=null;
+                        break;
+                        case "END":
+                            clearInterval(_obj.timelineEvent);
+                            _obj.timelineEvent=null;
+                        break;
+                    }
+                  }
                   
 
                   window.addEventListener("message",

@@ -13,6 +13,7 @@ import caseViewReducer from "./reducers/caseView";
 import objectDynamicReducer from './reducers/objectDynamic';
 import playPauseReducer from './reducers/playPause';
 import imageListReducer from './reducers/imageList';
+import creativeTimeReducer from './reducers/creativeTime';
 
 const store = configureStore({
   reducer: {
@@ -25,6 +26,7 @@ const store = configureStore({
     objectDynamic: objectDynamicReducer,
     playPause: playPauseReducer,
     imageList: imageListReducer,
+    creativeTime: creativeTimeReducer,
   },
 });
 

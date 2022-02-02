@@ -77,7 +77,7 @@ const TextInput = (props) => {
         className="label"
         label={props.label}
       >
-        <Input showCount={true}/>
+        <Input showCount={true} />
       </Form.Item>
 
       <Collapse
@@ -89,7 +89,13 @@ const TextInput = (props) => {
         <Panel showArrow={false} header={null} key={1}>
           <Row>
             <Col span={12}>
-              <Radio.Group size="small" onChange={(e) => textCase(props.label, props.content, e.target.value)}>
+              <Radio.Group
+                size="small"
+                defaultValue={"upper"}
+                onChange={(e) =>
+                  textCase(props.label, props.content, e.target.value)
+                }
+              >
                 <Radio.Button value="sentence">
                   <SentenceCaseIcon />
                 </Radio.Button>
@@ -117,6 +123,7 @@ const TextInput = (props) => {
                   placeholder="Max"
                   size="small"
                   style={{ width: "100px" }}
+                  disabled={true}
                 />
               </Space>
             </Col>

@@ -11,6 +11,7 @@ import { dynamicElements } from "../reducers/dynamicElements";
 import { sidePanel } from "../reducers/sidePanel";
 import { objectDynamic } from "../reducers/objectDynamic";
 import { playPause } from '../reducers/playPause';
+import { creativeTime } from '../reducers/creativeTime';
 
 import FrameControl from './FrameControl';
 
@@ -90,6 +91,8 @@ const Iframe = () => {
           setTimeout(()=> {
             dispatch(playPause({ paused: true, visible: false }));
           }, 1000);
+        }else if(e.data.type === "CREATIVE_TIME"){
+          dispatch(creativeTime(e.data.t))
         }
       }
     }

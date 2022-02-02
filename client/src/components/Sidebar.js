@@ -97,7 +97,7 @@ const Sidebar = () => {
                     placement="rightTop"
                     title="Global Text Case"
                     content={
-                      <Radio.Group>
+                      <Radio.Group onChange={showTextSettings}>
                         <Radio.Button value="Aa">
                           <SentenceCaseIcon />
                         </Radio.Button>
