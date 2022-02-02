@@ -15,6 +15,7 @@ import playPauseReducer from './reducers/playPause';
 import imageListReducer from './reducers/imageList';
 import creativeTimeReducer from './reducers/creativeTime';
 import creativeStartedReducer from './reducers/creativeStarted';
+import caseSelectedReducer from './reducers/caseSelected';
 
 const store = configureStore({
   reducer: {
@@ -29,6 +30,7 @@ const store = configureStore({
     imageList: imageListReducer,
     creativeTime: creativeTimeReducer,
     creativeStarted: creativeStartedReducer,
+    caseSelected: caseSelectedReducer,
   },
 });
 

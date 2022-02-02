@@ -8,6 +8,7 @@ import Icon, {
   SaveOutlined,
   TranslationOutlined,
   StrikethroughOutlined,
+  CloseCircleFilled,
 } from "@ant-design/icons";
 
 //svg icons
@@ -24,6 +25,8 @@ import { counter } from "../reducers/counter";
 import { imageView } from '../reducers/imageView';
 import { caseView } from '../reducers/caseView';
 import { objectDynamic } from '../reducers/objectDynamic';
+import { caseSelected } from "../reducers/caseSelected";
+import { playPause } from "../reducers/playPause";
 
 const UpperCaseIcon = (props) => <Icon component={UpperCaseSvg} {...props} />;
 const LowerCaseIcon = (props) => <Icon component={LowerCaseSvg} {...props} />;
@@ -42,6 +45,7 @@ const Sidebar = () => {
   const count = useSelector((state) => state.counter.value);
 
   const [timer, setTimer] = React.useState(null);
+  const [gSettings, setGSettings] = React.useState(false);
 
   React.useEffect(() => {
       form.setFieldsValue(objects)
@@ -55,6 +59,7 @@ const Sidebar = () => {
 
   const showTextSettings = () => {
     dispatch(caseView(cases === 0 ? 1 : 0));
+    setGSettings(!cases? true : false);
   }
 
   const savePreview = () => {
@@ -70,6 +75,57 @@ const Sidebar = () => {
     }, 2000);
 
     setTimer(newTimer);
+  }
+
+  const globalCase = (e, type) => {
+    let obj = {};
+
+    Object.keys(form.getFieldValue()).map((data, index) => {
+      if(["text", "disclaimer", "legal", "headline", "price", "currency"].some(
+        (t) => data.toLowerCase().includes(t))){
+          
+          if(!data.toLowerCase().includes("color")){
+            if(type === "case"){
+              switch (e.target.value) {
+                case "sentence":
+                  obj[data] = form
+                    .getFieldValue()
+                    [data].toLowerCase()
+                    .replace(/\.\s+([a-z])[^.]|^(\s*[a-z])[^.]/g, (s) =>
+                      s.replace(/([a-z])/, (s) => s.toUpperCase())
+                    );
+                  break;
+                case "upper":
+                  obj[data] = form.getFieldValue()[data].toUpperCase();
+                  break;
+                case "lower":
+                  obj[data] = form.getFieldValue()[data].toLowerCase();
+                  break;
+                default:
+                  console.log("hello");
+                  break;
+              }
+            }else{
+              obj[data] = form
+                .getFieldValue()
+                [data].substring(0, form.getFieldValue()[data].split('').length / 2);
+            }
+          }
+        }
+        return index;
+    });
+
+    form.setFieldsValue(obj);
+    dispatch(caseSelected(e.target.value));
+
+    clearTimeout(timer);
+
+    const newTimer = setTimeout(() => {
+      dispatch(objectDynamic(form.getFieldsValue()));
+      dispatch(counter(count + 1));
+      dispatch(playPause({ paused: true, visible: false }));
+      setTimer(newTimer);
+    }, 1000);
   }
 
   return (
@@ -91,25 +147,32 @@ const Sidebar = () => {
               <Col>
                 <Tooltip
                   placement="right"
-                  title={cases ? null : "Text Settings"}
+                  title={gSettings ? null : "Text Settings"}
                 >
                   <Popover
                     placement="rightTop"
                     title="Global Text Case"
                     content={
-                      <Radio.Group onChange={showTextSettings}>
-                        <Radio.Button value="Aa">
-                          <SentenceCaseIcon />
-                        </Radio.Button>
-                        <Radio.Button value="AA">
-                          <UpperCaseIcon />
-                        </Radio.Button>
-                        <Radio.Button value="aa">
-                          <LowerCaseIcon />
-                        </Radio.Button>
-                      </Radio.Group>
+                      <div>
+                        <Radio.Group onChange={(e) => globalCase(e, "case")}>
+                          <Radio.Button value="sentence">
+                            <SentenceCaseIcon />
+                          </Radio.Button>
+                          <Radio.Button value="upper">
+                            <UpperCaseIcon />
+                          </Radio.Button>
+                          <Radio.Button value="lower">
+                            <LowerCaseIcon />
+                          </Radio.Button>
+                        </Radio.Group>
+                        <Button
+                          type="link"
+                          icon={<CloseCircleFilled />}
+                          onClick={() => setGSettings(false)}
+                        />
+                      </div>
                     }
-                    visible={cases}
+                    visible={gSettings}
                   >
                     <Button
                       type={cases === 0 ? "default" : "primary"}
@@ -126,6 +189,7 @@ const Sidebar = () => {
                     type="default"
                     icon={<StrikethroughOutlined />}
                     size="small"
+                    onClick={(e) => globalCase(e, "minimum")}
                   />
                 </Tooltip>
               </Col>

@@ -31,7 +31,6 @@ import { template } from '../reducers/template';
 import { sidePanel } from "../reducers/sidePanel";
 import { objectDynamic } from "../reducers/objectDynamic";
 import { imageList } from "../reducers/imageList";
-import { counter } from "../reducers/counter";
 
 const GoogleIcon = (props) => <Icon component={GoogleSvg} {...props} />;
 const { Header, Content, Sider } = Layout;
@@ -46,7 +45,6 @@ const Playground = () => {
   const side = useSelector((state) => state.sidePanel.value);
   const objects = useSelector((state) => state.objectDynamic.value);
   const imgList = useSelector((state) => state.imageList.value);
-  const count = useSelector((state) => state.counter.value);
   
   const [closeable, setCloseable] = React.useState(true);
   const [templates, setTemplates] = React.useState([]);
