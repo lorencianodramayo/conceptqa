@@ -2,6 +2,7 @@ import React from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { useParams, useNavigate, Link } from "react-router-dom";
 import axios from 'axios';
+import Particles from "react-tsparticles";
 //import ReactCountryFlag from "react-country-flag";
 import {
   Layout,
@@ -112,7 +113,12 @@ const Playground = () => {
               <div className="logo">
                 <img src={logo} alt="QA" />
               </div>
-              <Menu theme="dark" mode="horizontal" defaultSelectedKeys={["1"]} onClick={showPanels}>
+              <Menu
+                theme="dark"
+                mode="horizontal"
+                defaultSelectedKeys={["1"]}
+                onClick={showPanels}
+              >
                 <Menu.Item key="1" icon={<ExperimentOutlined />}>
                   Playground
                 </Menu.Item>
@@ -120,9 +126,7 @@ const Playground = () => {
                   Assets
                 </Menu.Item> */}
                 <Menu.Item key="3" icon={<BlockOutlined />}>
-                  <Link to={`/preview/${playgroundId}`}>
-                    Preview
-                  </Link>
+                  <Link to={`/preview/${playgroundId}`}>Preview</Link>
                 </Menu.Item>
               </Menu>
             </Col>
@@ -206,7 +210,9 @@ const Playground = () => {
             maskStyle={
               templateId !== undefined
                 ? { backgroundColor: "#5c18ff78" }
-                : { backgroundColor: "#7846ff" }
+                : {
+                    backgroundImage: "url(https://source.unsplash.com/1600x900/?code)",
+                  }
             }
           >
             <List
