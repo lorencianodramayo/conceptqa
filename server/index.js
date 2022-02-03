@@ -37,7 +37,7 @@ app.use(express.urlencoded({ extended: false }));
 // Step 3
 
 if (process.env.NODE_ENV === "production") {
-  app.use(express.static("client/build"));
+  app.use(express.static(__dirname, "client/build"));
 }
 
 // HTTP request logger
@@ -48,7 +48,7 @@ app.use("/TemplateAPI", TemplateAPI);
 app.use("/PlaygroundAPI", PlaygroundAPI);
 
 app.get("/*", (req, res) => {
-  res.sendFile(path.join(__dirname, "../client/build", "index.html"));
+  res.sendFile(path.join(__dirname, "/client/build", "index.html"));
 });
 
 app.listen(PORT, console.log(`Server is starting at ${PORT}`));
