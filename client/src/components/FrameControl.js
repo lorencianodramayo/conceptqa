@@ -1,5 +1,5 @@
 import React from "react";
-import { Row, Col, Typography, Button, Divider } from "antd";
+import { Row, Col, Typography, Button } from "antd";
 import { useSelector, useDispatch } from "react-redux";
 import Icon, {
   PlayCircleOutlined,

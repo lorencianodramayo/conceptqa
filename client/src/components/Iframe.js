@@ -38,7 +38,7 @@ const Iframe = () => {
         window.addEventListener("message", (event) => getDynamic(event));
         dispatch(creativeTime(0));
         //check if data exist
-        
+        console.log(visibleFrame);
             if (
               Object.keys(dynamic).length > 0 &&
               Object.keys(temp).includes("defaultValues") === false

@@ -1,6 +1,17 @@
 import React from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { Card, Form, Button, Row, Col, Tooltip, Popover, Radio } from "antd";
+import {
+  Card,
+  Form,
+  Button,
+  Row,
+  Col,
+  Tooltip,
+  Popover,
+  Radio,
+  Menu,
+  Modal,
+} from "antd";
 
 import Icon, {
   PictureOutlined,
@@ -9,6 +20,7 @@ import Icon, {
   TranslationOutlined,
   StrikethroughOutlined,
   CloseCircleFilled,
+  AppstoreAddOutlined,
 } from "@ant-design/icons";
 
 //svg icons
@@ -19,6 +31,7 @@ import TextInput from "../global/TextInput";
 import NormalText from "../global/NormalText";
 import Selection from "../global/Selection";
 import ImageSelection from "../global/ImageSelection";
+import AddLanguage from "../global/AddLanguage";
 
 //reducers
 import { counter } from "../reducers/counter";
@@ -48,6 +61,7 @@ const Sidebar = () => {
 
   const [timer, setTimer] = React.useState(null);
   const [gSettings, setGSettings] = React.useState(false);
+  const [addLanguage, setAddLaungage] = React.useState(false)
 
   React.useEffect(() => {
       form.setFieldsValue(objects)
@@ -199,7 +213,7 @@ const Sidebar = () => {
               <Col>
                 <Tooltip placement="right" title="Minimum Character">
                   <Button
-                    type={sMin.active? "primary" : "default" }
+                    type={sMin.active ? "primary" : "default"}
                     icon={<StrikethroughOutlined />}
                     size="small"
                     onClick={(e) => globalCase(e, "minimum")}
@@ -208,11 +222,56 @@ const Sidebar = () => {
               </Col>
               <Col>
                 <Tooltip placement="right" title="Language">
-                  <Button
-                    type="default"
-                    icon={<TranslationOutlined />}
-                    size="small"
-                  />
+                  <Popover
+                    placement="right"
+                    title={
+                      <Row>
+                        <Col span={18}>Select Language</Col>
+                        <Col
+                          span={6}
+                          style={{
+                            display: "flex",
+                            alignItems: "center",
+                            justifyContent: "flex-end",
+                          }}
+                        >
+                          <Button
+                            type="link"
+                            size="small"
+                            icon={<AppstoreAddOutlined />}
+                            onClick={() => setAddLaungage(!addLanguage)}
+                          />
+                        </Col>
+                      </Row>
+                    }
+                    content={
+                      <Menu>
+                        {[1, 2, 3, 4, 5, 6, 7, 8, 9, 10].map((data, index) => {
+                          return (
+                            <Menu.Item key={index}>{`Index ${data}`}</Menu.Item>
+                          );
+                        })}
+                      </Menu>
+                    }
+                    trigger="click"
+                    overlayClassName="language"
+                  >
+                    <Button
+                      type="default"
+                      icon={<TranslationOutlined />}
+                      size="small"
+                    />
+                  </Popover>
+                  <Modal
+                    title="Add new Language"
+                    centered
+                    visible={addLanguage}
+                    onOk={() => setAddLaungage(false)}
+                    onCancel={() => setAddLaungage(false)}
+                    footer={null}
+                  >
+                    <AddLanguage />
+                  </Modal>
                 </Tooltip>
               </Col>
               <Col>

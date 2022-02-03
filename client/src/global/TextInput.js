@@ -32,8 +32,14 @@ const TextInput = (props) => {
   const cases = useSelector((state) => state.caseView.value);
   const dispatch = useDispatch();
   const count = useSelector((state) => state.counter.value);
+  const cSelected = useSelector((state) => state.caseSelected.value);
 
   const [timer, setTimer] = React.useState(null);
+  const [caseSelect, setCaseSelect] = React.useState(null);
+
+  React.useEffect(() => {
+    setCaseSelect(cSelected);
+  }, [cSelected]);
 
   const textCase = (label, text, settings) => {
     switch(settings){
@@ -67,6 +73,8 @@ const TextInput = (props) => {
       dispatch(playPause({ paused: true, visible: false }));
       setTimer(newTimer);
     }, 2000);
+
+    setCaseSelect(settings)
   }
 
   return (
@@ -77,7 +85,7 @@ const TextInput = (props) => {
         className="label"
         label={props.label}
       >
-        <Input showCount={true} />
+        <Input/>
       </Form.Item>
 
       <Collapse
@@ -91,7 +99,7 @@ const TextInput = (props) => {
             <Col span={12}>
               <Radio.Group
                 size="small"
-                defaultValue={"upper"}
+                value={caseSelect}
                 onChange={(e) =>
                   textCase(props.label, props.content, e.target.value)
                 }
