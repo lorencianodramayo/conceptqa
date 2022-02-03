@@ -27,6 +27,7 @@ import { caseView } from '../reducers/caseView';
 import { objectDynamic } from '../reducers/objectDynamic';
 import { caseSelected } from "../reducers/caseSelected";
 import { playPause } from "../reducers/playPause";
+import { splitMin } from "../reducers/splitMin";
 
 const UpperCaseIcon = (props) => <Icon component={UpperCaseSvg} {...props} />;
 const LowerCaseIcon = (props) => <Icon component={LowerCaseSvg} {...props} />;
@@ -43,6 +44,7 @@ const Sidebar = () => {
   const cases = useSelector((state) => state.caseView.value);
   const objects = useSelector((state) => state.objectDynamic.value);
   const count = useSelector((state) => state.counter.value);
+  const sMin = useSelector((state) => state.splitMin.value);
 
   const [timer, setTimer] = React.useState(null);
   const [gSettings, setGSettings] = React.useState(false);
@@ -106,9 +108,20 @@ const Sidebar = () => {
                   break;
               }
             }else{
-              obj[data] = form
-                .getFieldValue()
-                [data].substring(0, form.getFieldValue()[data].split('').length / 2);
+              if(!sMin.active){
+                dispatch(
+                  splitMin({ active: true, dynamic: form.getFieldValue() })
+                );
+                obj[data] = form
+                  .getFieldValue()
+                  [data].substring(0, form.getFieldValue()[data].split('').length / 2)
+              }else{
+                obj = sMin.dynamic;
+                dispatch(
+                  splitMin({ active: false, dynamic: {} })
+                );
+              }
+              
             }
           }
         }
@@ -186,7 +199,7 @@ const Sidebar = () => {
               <Col>
                 <Tooltip placement="right" title="Minimum Character">
                   <Button
-                    type="default"
+                    type={sMin.active? "primary" : "default" }
                     icon={<StrikethroughOutlined />}
                     size="small"
                     onClick={(e) => globalCase(e, "minimum")}

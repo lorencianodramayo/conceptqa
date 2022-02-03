@@ -31,6 +31,9 @@ import { template } from '../reducers/template';
 import { sidePanel } from "../reducers/sidePanel";
 import { objectDynamic } from "../reducers/objectDynamic";
 import { imageList } from "../reducers/imageList";
+import { splitMin } from "../reducers/splitMin";
+import { imageView } from "../reducers/imageView";
+import { caseView } from "../reducers/caseView";
 
 const GoogleIcon = (props) => <Icon component={GoogleSvg} {...props} />;
 const { Header, Content, Sider } = Layout;
@@ -93,6 +96,9 @@ const Playground = () => {
   
   const templateList = (e) => {
     navigate(`/playground/${playgroundId}/template/${e}`);
+    dispatch(splitMin({}));
+    dispatch(caseView(0));
+    dispatch(imageView(false));
   }
 
   const showSidePanel = () => {
