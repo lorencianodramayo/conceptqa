@@ -29,28 +29,19 @@ const SentenceCaseIcon = (props) => (
 );
 
 const TextInput = (props) => {
-  const dispatch = useDispatch();
   const cases = useSelector((state) => state.caseView.value);
+  const dispatch = useDispatch();
   const count = useSelector((state) => state.counter.value);
-  const caseSelect = useSelector((state) => state.caseSelected.value);
 
   const [timer, setTimer] = React.useState(null);
-  const [keySelect, setKeySelect] = React.useState();
-
-  React.useEffect(()=>{
-    setKeySelect(caseSelect);
-  }, [caseSelect])
 
   const textCase = (label, text, settings) => {
-    setKeySelect(settings);
     switch(settings){
       case 'sentence':
         props.forms.setFieldsValue({
-          [`${label}`]: text
-            .toLowerCase()
-            .replace(/\.\s+([a-z])[^.]|^(\s*[a-z])[^.]/g, (s) =>
-              s.replace(/([a-z])/, (s) => s.toUpperCase())
-            ),
+          [`${label}`]: text.replace(/\.\s+([a-z])[^.]|^(\s*[a-z])[^.]/g, (s) =>
+            s.replace(/([a-z])/, (s) => s.toUpperCase())
+          ),
         });
       break;
       case 'upper':
@@ -75,7 +66,7 @@ const TextInput = (props) => {
       dispatch(counter(count + 1));
       dispatch(playPause({ paused: true, visible: false }));
       setTimer(newTimer);
-    }, 1000);
+    }, 2000);
   }
 
   return (
@@ -86,7 +77,7 @@ const TextInput = (props) => {
         className="label"
         label={props.label}
       >
-        <Input />
+        <Input showCount={true} />
       </Form.Item>
 
       <Collapse
@@ -100,7 +91,7 @@ const TextInput = (props) => {
             <Col span={12}>
               <Radio.Group
                 size="small"
-                value={keySelect}
+                defaultValue={"upper"}
                 onChange={(e) =>
                   textCase(props.label, props.content, e.target.value)
                 }

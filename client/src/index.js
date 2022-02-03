@@ -16,7 +16,6 @@ import imageListReducer from './reducers/imageList';
 import creativeTimeReducer from './reducers/creativeTime';
 import creativeStartedReducer from './reducers/creativeStarted';
 import caseSelectedReducer from './reducers/caseSelected';
-import splitMinReducer from './reducers/splitMin';
 
 const store = configureStore({
   reducer: {
@@ -32,7 +31,6 @@ const store = configureStore({
     creativeTime: creativeTimeReducer,
     creativeStarted: creativeStartedReducer,
     caseSelected: caseSelectedReducer,
-    splitMin: splitMinReducer,
   },
 });
 
