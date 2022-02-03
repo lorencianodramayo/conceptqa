@@ -199,7 +199,7 @@ const Sidebar = () => {
               <Col>
                 <Tooltip placement="right" title="Minimum Character">
                   <Button
-                    type="default"
+                    type={sMin.active? "primary" : "default" }
                     icon={<StrikethroughOutlined />}
                     size="small"
                     onClick={(e) => globalCase(e, "minimum")}
