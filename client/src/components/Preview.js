@@ -16,7 +16,7 @@ const { Paragraph } = Typography;
 
 const Preview = () => {
   const { previewId } = useParams();
-  const [editableStr, setEditableStr] = React.useState("Untitled | February 2, 2022");
+  const [editableStr, setEditableStr] = React.useState("Untitled | February 4, 2022");
   const [editableName, setEditableName] = React.useState(
     "Ad-Lib QA | Untitled"
   );
