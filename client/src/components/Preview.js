@@ -18,7 +18,7 @@ const Preview = () => {
   const { previewId } = useParams();
   const [editableStr, setEditableStr] = React.useState("Untitled | February 2, 2022");
   const [editableName, setEditableName] = React.useState(
-    "Ad-Lib QA | Specsavers"
+    "Ad-Lib QA | Untitled"
   );
   const [data, setData] = React.useState([])
   React.useEffect(() => {
