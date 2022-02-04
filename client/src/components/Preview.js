@@ -29,6 +29,15 @@ const Preview = () => {
       });
   }, [previewId]);
 
+  const loaded = (objects, template, e) => {
+   e.target.contentWindow.postMessage(
+     objects,
+     `https://storage.googleapis.com/${template.url}/${
+       template.uid
+     }/${decodeURIComponent(template.directory)}/index.html`
+   );
+  };
+
   return (
     <Layout className="Preview">
       <Header style={{ position: "fixed", zIndex: 1, width: "100%" }}>
@@ -118,6 +127,8 @@ const Preview = () => {
                           width={item.template.width}
                           height={item.template.height}
                           className="iframe"
+                          name="preview-iframe"
+                          onLoad={(e) => loaded(item.defaultValues, item.template, e)}
                           url={`https://storage.googleapis.com/${item.template.url}/${item.template.uid}/${item.template.directory}/index.html`}
                         />
                       </Card>
@@ -141,7 +152,9 @@ const Preview = () => {
                                   {editableName}
                                 </Paragraph>
                               </Col>
-                              <Col span={24}>{`${item.template.width}x${item.template.height}`}</Col>
+                              <Col
+                                span={24}
+                              >{`${item.template.width}x${item.template.height}`}</Col>
                             </Row>
                           </Card>
                         </Col>
