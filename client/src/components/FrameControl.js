@@ -12,6 +12,7 @@ import { counter } from "../reducers/counter";
 import { playPause } from "../reducers/playPause";
 import { creativeTime } from "../reducers/creativeTime";
 import { creativeStarted } from "../reducers/creativeStarted";
+import { selectedLanguage } from "../reducers/selectedLanguage";
 
 import { CreativeSvg, DurationSvg } from "../assets/icons";
 
@@ -45,6 +46,7 @@ const FrameControl = () => {
       dispatch(playPause({ paused: true, visible: false }));
       dispatch(creativeTime(0));
       dispatch(creativeStarted(false));
+      dispatch(selectedLanguage(''));
   };
 
   return (

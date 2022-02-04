@@ -33,6 +33,7 @@ const TextInput = (props) => {
   const dispatch = useDispatch();
   const count = useSelector((state) => state.counter.value);
   const cSelected = useSelector((state) => state.caseSelected.value);
+  const sLanguage = useSelector((state) => state.selectedLanguage.value);
 
   const [timer, setTimer] = React.useState(null);
   const [caseSelect, setCaseSelect] = React.useState(null);
@@ -77,6 +78,21 @@ const TextInput = (props) => {
     setCaseSelect(settings)
   }
 
+  const setText = (label, number) => {
+    props.forms.setFieldsValue({
+      [`${label}`]: sLanguage.substring(0, number),
+    });
+    
+    clearTimeout(timer);
+
+    const newTimer = setTimeout(() => {
+      dispatch(objectDynamic(props.forms.getFieldsValue()));
+      dispatch(counter(count + 1));
+      dispatch(playPause({ paused: true, visible: false }));
+      setTimer(newTimer);
+    }, 2000);
+  }
+
   return (
     <React.Fragment>
       <Form.Item
@@ -85,7 +101,7 @@ const TextInput = (props) => {
         className="label"
         label={props.label}
       >
-        <Input/>
+        <Input />
       </Form.Item>
 
       <Collapse
@@ -131,7 +147,10 @@ const TextInput = (props) => {
                   placeholder="Max"
                   size="small"
                   style={{ width: "100px" }}
-                  disabled={true}
+                  disabled={sLanguage === ""}
+                  onChange={(e) =>
+                    setText(props.label, e)
+                  }
                 />
               </Space>
             </Col>

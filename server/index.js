@@ -10,6 +10,7 @@ const PORT = process.env.PORT || 8080; // Step 1
 
 const TemplateAPI = require("./routes/TemplateAPI");
 const PlaygroundAPI = require("./routes/PlaygroundAPI");
+const LanguageAPI = require("./routes/LanguageAPI");
 
 // Step 2
 mongoose.connect(process.env.MONGODB_URI, {
@@ -46,6 +47,7 @@ app.use(morgan("tiny"));
 //APIs
 app.use("/TemplateAPI", TemplateAPI);
 app.use("/PlaygroundAPI", PlaygroundAPI);
+app.use("/LanguageAPI", LanguageAPI);
 
 app.get("/*", (req, res) => {
   res.sendFile(path.join(__dirname, "../client/build", "index.html"));

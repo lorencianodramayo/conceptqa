@@ -1,8 +1,13 @@
-import { Form, Input, Button, Checkbox } from "antd";
+import axios from 'axios';
+import { Form, Input, Button, message } from "antd";
 
 const AddLanguage = () => {
+    const [form] = Form.useForm();
     const onFinish = (values) => {
-        console.log("Success:", values);
+        axios.post("/LanguageAPI/", values).then((res) => {
+          message.success(`${values.name} is now added!`);
+          form.setFieldsValue({ name: "", copies: "" });
+        });
     };
 
     const onFinishFailed = (errorInfo) => {
@@ -19,6 +24,7 @@ const AddLanguage = () => {
         onFinishFailed={onFinishFailed}
         autoComplete="off"
         layout="vertical"
+        form={form}
       >
         <Form.Item label="Name" name="name">
           <Input />

@@ -17,6 +17,7 @@ import creativeTimeReducer from './reducers/creativeTime';
 import creativeStartedReducer from './reducers/creativeStarted';
 import caseSelectedReducer from './reducers/caseSelected';
 import splitMinReducer from './reducers/splitMin';
+import selectedLanguageReducer from "./reducers/selectedLanguage";
 
 const store = configureStore({
   reducer: {
@@ -33,6 +34,7 @@ const store = configureStore({
     creativeStarted: creativeStartedReducer,
     caseSelected: caseSelectedReducer,
     splitMin: splitMinReducer,
+    selectedLanguage: selectedLanguageReducer,
   },
 });
 

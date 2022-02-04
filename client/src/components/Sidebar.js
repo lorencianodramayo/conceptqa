@@ -1,4 +1,5 @@
 import React from "react";
+import axios from 'axios';
 import { useDispatch, useSelector } from "react-redux";
 import {
   Card,
@@ -41,6 +42,7 @@ import { objectDynamic } from '../reducers/objectDynamic';
 import { caseSelected } from "../reducers/caseSelected";
 import { playPause } from "../reducers/playPause";
 import { splitMin } from "../reducers/splitMin";
+import { selectedLanguage } from "../reducers/selectedLanguage";
 
 const UpperCaseIcon = (props) => <Icon component={UpperCaseSvg} {...props} />;
 const LowerCaseIcon = (props) => <Icon component={LowerCaseSvg} {...props} />;
@@ -58,17 +60,17 @@ const Sidebar = () => {
   const objects = useSelector((state) => state.objectDynamic.value);
   const count = useSelector((state) => state.counter.value);
   const sMin = useSelector((state) => state.splitMin.value);
+  const sLanguage = useSelector((state) => state.selectedLanguage.value);
 
   const [timer, setTimer] = React.useState(null);
   const [gSettings, setGSettings] = React.useState(false);
   const [addLanguage, setAddLaungage] = React.useState(false)
+  const [languageList, setLanguageList] = React.useState([])
 
   React.useEffect(() => {
       form.setFieldsValue(objects)
   }, [dispatch, form, objects, temp]);
 
-
-  
   const showImages = () => {
     dispatch(imageView(!image));
   }
@@ -80,6 +82,13 @@ const Sidebar = () => {
 
   const savePreview = () => {
 
+  }
+
+  const viewLanguage = () => {
+    setGSettings(false);;
+    axios.get("/LanguageAPI/languageAll").then((res) => {
+      setLanguageList(res.data)
+    });
   }
 
   const UpdateDynamicElements = (e, l) => {
@@ -153,6 +162,11 @@ const Sidebar = () => {
       dispatch(playPause({ paused: true, visible: false }));
       setTimer(newTimer);
     }, 1000);
+  }
+
+  const setCopies = (e) => {
+   //let title = e.item.props.title;
+   dispatch(selectedLanguage(e.domEvent.target.title));
   }
 
   return (
@@ -245,10 +259,12 @@ const Sidebar = () => {
                       </Row>
                     }
                     content={
-                      <Menu>
-                        {[1, 2, 3, 4, 5, 6, 7, 8, 9, 10].map((data, index) => {
+                      <Menu onClick={setCopies}>
+                        {languageList.map((data, index) => {
                           return (
-                            <Menu.Item key={index}>{`Index ${data}`}</Menu.Item>
+                            <Menu.Item key={index} title={data.copies}>
+                              {data.name}
+                            </Menu.Item>
                           );
                         })}
                       </Menu>
@@ -257,9 +273,10 @@ const Sidebar = () => {
                     overlayClassName="language"
                   >
                     <Button
-                      type="default"
+                      type={sLanguage === '' ? "default" : "primary"}
                       icon={<TranslationOutlined />}
                       size="small"
+                      onClick={viewLanguage}
                     />
                   </Popover>
                   <Modal
