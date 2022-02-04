@@ -35,6 +35,7 @@ import { splitMin } from "../reducers/splitMin";
 import { imageView } from "../reducers/imageView";
 import { caseView } from "../reducers/caseView";
 import { selectedLanguage } from "../reducers/selectedLanguage";
+import { playPause } from "../reducers/playPause";
 
 const GoogleIcon = (props) => <Icon component={GoogleSvg} {...props} />;
 const { Header, Content, Sider } = Layout;
@@ -101,6 +102,7 @@ const Playground = () => {
     dispatch(caseView(0));
     dispatch(imageView(false));
     dispatch(selectedLanguage(""));
+    dispatch(playPause({ paused: true, visible: false }));
   }
 
   const showSidePanel = () => {
