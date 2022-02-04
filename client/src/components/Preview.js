@@ -1,4 +1,5 @@
 import React from "react";
+import axios from 'axios';
 import Iframe from "react-iframe";
 import { useParams, Link } from "react-router-dom";
 import { Layout, Menu, Row, Col, List, Card, PageHeader, Typography } from "antd";
@@ -11,15 +12,6 @@ import logo from "../assets/main-logo.svg";
 
 const { Header, Content } = Layout;
 
-const data = [
-  "Racing car sprays burning fuel into crowd.",
-  "Japanese princess to wed commoner.",
-  "Australian walks 100km after outback crash.",
-  "Man charged over missing wedding girl.",
-  "Los Angeles battles huge wildfires.",
-  "Los Angeles battles huge wildfires.",
-];
-
 const { Paragraph } = Typography;
 
 const Preview = () => {
@@ -28,9 +20,14 @@ const Preview = () => {
   const [editableName, setEditableName] = React.useState(
     "Ad-Lib QA | Specsavers"
   );
+  const [data, setData] = React.useState([])
   React.useEffect(() => {
-    //initial load for playground
-  }, []);
+    axios
+      .get("/PreviewAPI/", { params: { playgroundId: previewId } })
+      .then((res) => {
+        setData(res.data)
+      });
+  }, [previewId]);
 
   return (
     <Layout className="Preview">
@@ -118,10 +115,10 @@ const Preview = () => {
                         }}
                       >
                         <Iframe
-                          width={970}
-                          height={250}
+                          width={item.template.width}
+                          height={item.template.height}
                           className="iframe"
-                          url={`https://storage.googleapis.com/adlib-showcase-bucket/ac110860-8381-11ec-89d5-9fc170b18577/970x250-Specsavers Global/index.html`}
+                          url={`https://storage.googleapis.com/${item.template.url}/${item.template.uid}/${item.template.directory}/index.html`}
                         />
                       </Card>
                     </Col>
@@ -144,7 +141,7 @@ const Preview = () => {
                                   {editableName}
                                 </Paragraph>
                               </Col>
-                              <Col span={24}>300x250</Col>
+                              <Col span={24}>{`${item.template.width}x${item.template.height}`}</Col>
                             </Row>
                           </Card>
                         </Col>

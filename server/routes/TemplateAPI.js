@@ -11,6 +11,7 @@ require("dotenv").config();
 //Models
 const PlaygroundModel = require('../models/PlaygroundModel');
 const TemplateModel = require("../models/TemplateModel");
+const PreviewModel = require("../models/PreviewModel");
 
 //bucket settings
 const storage = new Storage({
@@ -211,6 +212,19 @@ router.put("/update", (req, res) => {
       }
     );
   }
+});
+
+router.post("/savePreview", (req, res) => {
+  const preview = new PreviewModel(req.body);
+
+  //saving entries
+  preview.save((error, result) => {
+    if (error) {
+      return res.status(500).json({ msg: "Sorry, internal server errors" });
+    }
+
+    return res.json(result);
+  });
 });
 
 module.exports = router;

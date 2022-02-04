@@ -1,5 +1,6 @@
 import React from "react";
 import axios from 'axios';
+import { useParams } from 'react-router-dom';
 import { useDispatch, useSelector } from "react-redux";
 import {
   Card,
@@ -12,6 +13,7 @@ import {
   Radio,
   Menu,
   Modal,
+  notification
 } from "antd";
 
 import Icon, {
@@ -54,6 +56,8 @@ const Sidebar = () => {
   const dispatch = useDispatch();
   const [form] = Form.useForm();
 
+  const { playgroundId } = useParams();
+
   const temp = useSelector((state) => state.template.value);
   const image = useSelector((state) => state.imageView.value);
   const cases = useSelector((state) => state.caseView.value);
@@ -81,7 +85,21 @@ const Sidebar = () => {
   }
 
   const savePreview = () => {
-
+    console.log(playgroundId);
+    axios
+      .post("/TemplateAPI/savePreview", {
+        template: temp,
+        defaultValues: objects,
+        playgroundId: playgroundId,
+        variantName: temp.name,
+      })
+      .then((res) => {
+        notification.success({
+          message: "Success!",
+          description: "The variant is saved and now visible in the preview.",
+          duration: 3,
+        });
+      });
   }
 
   const viewLanguage = () => {
