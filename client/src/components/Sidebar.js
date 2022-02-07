@@ -291,7 +291,7 @@ const Sidebar = () => {
                     overlayClassName="language"
                   >
                     <Button
-                      type={sLanguage === '' ? "default" : "primary"}
+                      type={sLanguage === "" ? "default" : "primary"}
                       icon={<TranslationOutlined />}
                       size="small"
                       onClick={viewLanguage}
@@ -329,61 +329,46 @@ const Sidebar = () => {
               onValuesChange={UpdateDynamicElements}
             >
               {Object.keys(objects).length > 0
-                ? Object.keys(objects).map((dv, index) => {
-                    if (
-                      [
-                        "image",
-                        "logo",
-                        "img",
-                        "background",
-                        "roundel",
-                        "video",
-                        "audio",
-                        "packshot",
-                      ].some((t) => dv.toLowerCase().includes(t))
-                    ) {
-                      return (
-                        <ImageSelection
-                          label={dv}
-                          url={objects[dv]}
-                          key={index}
-                          forms={form}
-                        />
-                      );
-                    } else {
+                ? Object.keys(objects)
+                    .sort()
+                    .map((dv, index) => {
                       if (
                         [
-                          "text",
-                          "disclaimer",
-                          "legal",
-                          "headline",
-                          "price",
-                          "currency",
+                          "image",
+                          "logo",
+                          "img",
+                          "background",
+                          "roundel",
+                          "video",
+                          "audio",
+                          "packshot",
                         ].some((t) => dv.toLowerCase().includes(t))
                       ) {
-                        return !dv.toLowerCase().includes("color") ? (
-                          <TextInput
+                        return (
+                          <ImageSelection
                             label={dv}
-                            content={objects[dv]}
+                            url={objects[dv]}
                             key={index}
                             forms={form}
                           />
-                        ) : (
-                          <NormalText
-                            label={dv}
-                            content={objects[dv]}
-                            key={index}
-                          />
                         );
                       } else {
-                        return temp.possibleValues !== undefined ? (
-                          typeof temp.possibleValues[dv] !== "undefined" ||
-                          temp.possibleValues[dv] !== undefined ? (
-                            <Selection
+                        if (
+                          [
+                            "text",
+                            "disclaimer",
+                            "legal",
+                            "headline",
+                            "price",
+                            "currency",
+                          ].some((t) => dv.toLowerCase().includes(t))
+                        ) {
+                          return !dv.toLowerCase().includes("color") ? (
+                            <TextInput
                               label={dv}
-                              options={temp.possibleValues[dv]}
                               content={objects[dv]}
                               key={index}
+                              forms={form}
                             />
                           ) : (
                             <NormalText
@@ -391,17 +376,34 @@ const Sidebar = () => {
                               content={objects[dv]}
                               key={index}
                             />
-                          )
-                        ) : (
-                          <NormalText
-                            label={dv}
-                            content={objects[dv]}
-                            key={index}
-                          />
-                        );
+                          );
+                        } else {
+                          return temp.possibleValues !== undefined ? (
+                            typeof temp.possibleValues[dv] !== "undefined" ||
+                            temp.possibleValues[dv] !== undefined ? (
+                              <Selection
+                                label={dv}
+                                options={temp.possibleValues[dv]}
+                                content={objects[dv]}
+                                key={index}
+                              />
+                            ) : (
+                              <NormalText
+                                label={dv}
+                                content={objects[dv]}
+                                key={index}
+                              />
+                            )
+                          ) : (
+                            <NormalText
+                              label={dv}
+                              content={objects[dv]}
+                              key={index}
+                            />
+                          );
+                        }
                       }
-                    }
-                  })
+                    })
                 : null}
             </Form>
           </Card>

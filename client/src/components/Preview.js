@@ -120,6 +120,7 @@ const Preview = () => {
                           display: "flex",
                           justifyContent: "center",
                           minHeight: "33em",
+                          minWidth: '50vw',
                           alignItems: "center",
                         }}
                       >
