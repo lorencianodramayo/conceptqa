@@ -1,4 +1,5 @@
 import React from "react";
+import { useCookieState } from "ahooks";
 import { useDispatch, useSelector } from "react-redux";
 import { useParams, useNavigate, Link } from "react-router-dom";
 import axios from 'axios';
@@ -43,6 +44,8 @@ const { Header, Content, Sider } = Layout;
 const Playground = () => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
+
+  const [cId, setCid] = useCookieState("playgroundId");
   
   const { playgroundId, templateId } = useParams();
 
@@ -98,6 +101,7 @@ const Playground = () => {
   
   const templateList = (e) => {
     navigate(`/playground/${playgroundId}/template/${e}`);
+    setCid(e);
     dispatch(splitMin({}));
     dispatch(caseView(0));
     dispatch(imageView(false));

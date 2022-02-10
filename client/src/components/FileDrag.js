@@ -1,5 +1,6 @@
 import React from "react";
 import axios from "axios";
+import { useCookieState } from "ahooks";
 import { Upload, notification } from "antd";
 
 import { useNavigate } from "react-router-dom";
@@ -8,6 +9,7 @@ import { InboxOutlined } from "@ant-design/icons";
 const { Dragger } = Upload;
 
 const FileDrag = (props) => {
+  const [cId, setCid] = useCookieState("playgroundId");
   const [playground, setPlayground] = React.useState('');
   const [uploaded, setUploaded] = React.useState(1);
   const [count, setCount] = React.useState(0);
@@ -16,8 +18,9 @@ const FileDrag = (props) => {
   React.useEffect(()=> {
     axios.post("/TemplateAPI/", { templates: [] }).then((res) => {
       setPlayground(res.data._id);
+      setCid("");
     });
-  }, [])
+  }, [setCid])
 
   const prop = {
     accept: ".zip",

@@ -1,4 +1,5 @@
 import React from "react";
+import { useCookieState } from "ahooks";
 import axios from 'axios';
 import Iframe from "react-iframe";
 import { useParams, Link } from "react-router-dom";
@@ -27,6 +28,7 @@ const { Paragraph } = Typography;
 
 const Preview = () => {
   const { previewId } = useParams();
+  const [cId, setCid] = useCookieState("playgroundId");
   const [editableStr, setEditableStr] = React.useState("Untitled | February 4, 2022");
   const [data, setData] = React.useState([])
   React.useEffect(() => {
@@ -77,7 +79,9 @@ const Preview = () => {
             </div>
             <Menu theme="dark" mode="horizontal" defaultSelectedKeys={["3"]}>
               <Menu.Item key="1" icon={<ExperimentOutlined />}>
-                <Link to={`/playground/${previewId}`}>Playground</Link>
+                <Link to={`/playground/${previewId}/template/${cId}`}>
+                  Playground
+                </Link>
               </Menu.Item>
               <Menu.Item key="3" icon={<BlockOutlined />}>
                 Preview
