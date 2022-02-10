@@ -68,6 +68,7 @@ const Sidebar = () => {
 
   const [timer, setTimer] = React.useState(null);
   const [gSettings, setGSettings] = React.useState(false);
+  const [lSettings, setLSettings] = React.useState(false)
   const [addLanguage, setAddLaungage] = React.useState(false)
   const [languageList, setLanguageList] = React.useState([])
 
@@ -103,7 +104,8 @@ const Sidebar = () => {
   }
 
   const viewLanguage = () => {
-    setGSettings(false);;
+    setGSettings(false);
+    setLSettings(!lSettings);
     axios.get("/LanguageAPI/languageAll").then((res) => {
       setLanguageList(res.data)
     });
@@ -183,6 +185,7 @@ const Sidebar = () => {
   }
 
   const setCopies = (e) => {
+    console.log();
    //let title = e.item.props.title;
    Object.keys(form.getFieldValue()).map((data, index) => {
      let obj = {};
@@ -191,14 +194,16 @@ const Sidebar = () => {
          (t) => data.toLowerCase().includes(t)
        )
      ) {
-      obj[data] = 
-        e.domEvent.target.title.substring(0, form.getFieldValue()[data].length)
+      obj[data] = languageList[e.key].copies.substring(
+        0,
+        form.getFieldValue()[data].length
+      );
      }
      
      return form.setFieldsValue(obj);
    });
 
-   dispatch(selectedLanguage(e.domEvent.target.title));
+   dispatch(selectedLanguage(languageList[e.key].copies));
 
   }
 
@@ -268,7 +273,10 @@ const Sidebar = () => {
                 </Tooltip>
               </Col>
               <Col>
-                <Tooltip placement="right" title="Language">
+                <Tooltip
+                  placement="right"
+                  title={lSettings ? null : "Language"}
+                >
                   <Popover
                     placement="right"
                     title={
@@ -304,6 +312,7 @@ const Sidebar = () => {
                     }
                     trigger="click"
                     overlayClassName="language"
+                    visible={lSettings}
                   >
                     <Button
                       type={sLanguage === "" ? "default" : "primary"}
