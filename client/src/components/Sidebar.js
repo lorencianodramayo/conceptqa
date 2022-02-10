@@ -184,7 +184,22 @@ const Sidebar = () => {
 
   const setCopies = (e) => {
    //let title = e.item.props.title;
+   Object.keys(form.getFieldValue()).map((data, index) => {
+     let obj = {};
+     if (
+       ["text", "disclaimer", "legal", "headline", "price", "currency"].some(
+         (t) => data.toLowerCase().includes(t)
+       )
+     ) {
+      obj[data] = 
+        e.domEvent.target.title.substring(0, form.getFieldValue()[data].length)
+     }
+     
+     return form.setFieldsValue(obj);
+   });
+
    dispatch(selectedLanguage(e.domEvent.target.title));
+
   }
 
   return (

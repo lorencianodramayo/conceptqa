@@ -2,10 +2,21 @@ import React from "react";
 import axios from 'axios';
 import Iframe from "react-iframe";
 import { useParams, Link } from "react-router-dom";
-import { Layout, Menu, Row, Col, List, Card, PageHeader, Typography } from "antd";
+import {
+  Layout,
+  Menu,
+  Row,
+  Col,
+  List,
+  Card,
+  PageHeader,
+  Typography,
+  Button,
+} from "antd";
 import {
   ExperimentOutlined,
   BlockOutlined,
+  DeleteOutlined,
 } from "@ant-design/icons";
 
 import logo from "../assets/main-logo.svg";
@@ -17,9 +28,6 @@ const { Paragraph } = Typography;
 const Preview = () => {
   const { previewId } = useParams();
   const [editableStr, setEditableStr] = React.useState("Untitled | February 4, 2022");
-  const [editableName, setEditableName] = React.useState(
-    "Ad-Lib QA | Untitled"
-  );
   const [data, setData] = React.useState([])
   React.useEffect(() => {
     axios
@@ -37,6 +45,27 @@ const Preview = () => {
      }/${decodeURIComponent(template.directory)}/index.html`
    );
   };
+
+  const editName = (e, info, index) => {
+    let newArr = [...data];
+    newArr[index].variantName = e;
+    axios
+      .put("/PreviewAPI/update", {
+        _id: info._id,
+        data: {
+          variantName: e,
+        },
+      })
+      .then((res) => setData(newArr));
+  }
+
+  const deleteVariant = (e, info) => {
+    axios
+      .put("/PreviewAPI/delete", {
+        _id: info._id,
+      })
+      .then((res) => setData(data.filter(({ _id }) => _id !== info._id)));
+  }
 
   return (
     <Layout className="Preview">
@@ -87,6 +116,7 @@ const Preview = () => {
               style={{
                 border: "1px solid rgb(235, 237, 240)",
                 boxShadow: "rgb(208 216 243 / 60%) 0 3px 6px 0px",
+                display: "none",
               }}
             />
           </Col>
@@ -104,7 +134,7 @@ const Preview = () => {
                 pageSizeOptions: [5, 10, 20, 50, 100],
               }}
               dataSource={data}
-              renderItem={(item) => (
+              renderItem={(item, index) => (
                 <List.Item
                   style={{ display: "flex", justifyContent: "center" }}
                 >
@@ -120,7 +150,7 @@ const Preview = () => {
                           display: "flex",
                           justifyContent: "center",
                           minHeight: "33em",
-                          minWidth: '50vw',
+                          minWidth: "50vw",
                           alignItems: "center",
                         }}
                       >
@@ -129,7 +159,9 @@ const Preview = () => {
                           height={item.template.height}
                           className="iframe"
                           name="preview-iframe"
-                          onLoad={(e) => loaded(item.defaultValues, item.template, e)}
+                          onLoad={(e) =>
+                            loaded(item.defaultValues, item.template, e)
+                          }
                           url={`https://storage.googleapis.com/${item.template.url}/${item.template.uid}/${item.template.directory}/index.html`}
                         />
                       </Card>
@@ -147,15 +179,36 @@ const Preview = () => {
                             <Row>
                               <Col span={12}>
                                 <Paragraph
-                                  editable={{ onChange: setEditableName }}
+                                  editable={{
+                                    onChange: (e) => editName(e, item, index),
+                                  }}
                                   style={{ margin: 0 }}
                                 >
-                                  {editableName}
+                                  {item.variantName}
                                 </Paragraph>
                               </Col>
-                              <Col
-                                span={24}
-                              >{`${item.template.width}x${item.template.height}`}</Col>
+                              <Col span={24}>
+                                <Row>
+                                  <Col
+                                    span={12}
+                                  >{`${item.template.width}x${item.template.height}`}</Col>
+                                  <Col
+                                    span={12}
+                                    style={{
+                                      display: "flex",
+                                      justifyContent: "flex-end",
+                                    }}
+                                  >
+                                    {" "}
+                                    <Button
+                                      type="link"
+                                      icon={<DeleteOutlined />}
+                                      size="small"
+                                      onClick={(e) => deleteVariant(e, item)}
+                                    />
+                                  </Col>
+                                </Row>
+                              </Col>
                             </Row>
                           </Card>
                         </Col>
