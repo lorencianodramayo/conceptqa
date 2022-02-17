@@ -8,19 +8,22 @@ router.post("/", (req, res) => {
         if (err) {
           return res.status(500).json({ msg: "Sorry, internal server errors" });
         }
-        
+        console.log(req.body.data.length);
+
         [req.body.data].map((data, index) => {
-            const creatives = new CreativesModel(data);
+          const obj = {};
+          obj = data;
+          const creatives = new CreativesModel(obj);
 
-            creatives.save((error, result) => {
-                if (error) {
-                    return res
-                    .status(500)
-                    .json({ msg: "Sorry, internal server errors" });
-                }
+          creatives.save((error, result) => {
+            if (error) {
+              return res
+                .status(500)
+                .json({ msg: "Sorry, internal server errors" });
+            }
 
-                return res.json(result);
-            });
+            return res.json(result);
+          });
         });
     });
 });
