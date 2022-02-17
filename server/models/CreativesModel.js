@@ -5,7 +5,7 @@ const Schema = mongoose.Schema;
 
 const CreativesModelSchema = new Schema({
   name: String,
-  encoded: String,
+  encoded: Blob,
   mimeType: String,
   date: {
     type: String,
