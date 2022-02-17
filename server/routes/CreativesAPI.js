@@ -20,10 +20,13 @@ router.post("/", (req, res) => {
                 .status(500)
                 .json({ msg: "Sorry, internal server errors" });
             }
-
-            return res.json(result);
           });
+
+          return;
         });
+
+        return res.status(200).json({ msg: "OK" });
+
     });
 });
 
