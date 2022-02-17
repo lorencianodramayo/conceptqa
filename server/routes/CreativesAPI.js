@@ -30,4 +30,15 @@ router.post("/", (req, res) => {
     });
 });
 
+
+router.get("/get", (req, res) => {
+  CreativesModel.find({}, (error, success) => {
+    if (error) {
+      return res.status(500).json({ msg: "Sorry, internal server errors" });
+    }
+    return res.json(success);
+  });
+});
+
+
 module.exports = router;
