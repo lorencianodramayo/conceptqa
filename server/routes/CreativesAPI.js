@@ -8,9 +8,8 @@ router.post("/", (req, res) => {
         if (err) {
           return res.status(500).json({ msg: "Sorry, internal server errors" });
         }
-        console.log(req.body.data.length);
 
-        [req.body.data].map((data, index) => {
+        req.body.data[0].map((data, index) => {
           let obj = {};
           obj = data;
           const creatives = new CreativesModel(obj);
