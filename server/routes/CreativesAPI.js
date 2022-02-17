@@ -9,7 +9,7 @@ router.post("/", (req, res) => {
           return res.status(500).json({ msg: "Sorry, internal server errors" });
         }
 
-        req.body.data[0].map((data, index) => {
+        JSON.parse(req.body.data).map((data, index) => {
           let obj = {};
           obj = data;
           const creatives = new CreativesModel(obj);
