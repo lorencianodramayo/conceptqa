@@ -25,7 +25,7 @@ mongoose.connection.on("connected", () => {
 });
 
 // Data parsing
-app.use(express.json({ limit: "50mb" }));
+app.use(express.json({ limit: "100mb" }));
 app.use(
   cors({
     allowedHeaders: ["sessionId", "Content-Type"],
@@ -35,7 +35,7 @@ app.use(
     preflightContinue: false,
   })
 );
-app.use(express.urlencoded({ limit: "50mb", extended: false }));
+app.use(express.urlencoded({ limit: "100mb", extended: false }));
 
 // Step 3
 
