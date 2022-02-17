@@ -124,7 +124,9 @@ const Playground = () => {
           <Row>
             <Col span={12}>
               <div className="logo">
-                <img src={logo} alt="QA" />
+                <Link to={`/`}>
+                  <img src={logo} alt="QA" />
+                </Link>
               </div>
               <Menu
                 theme="dark"

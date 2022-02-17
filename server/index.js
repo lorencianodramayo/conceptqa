@@ -12,6 +12,7 @@ const TemplateAPI = require("./routes/TemplateAPI");
 const PlaygroundAPI = require("./routes/PlaygroundAPI");
 const LanguageAPI = require("./routes/LanguageAPI");
 const PreviewAPI = require("./routes/PreviewAPI");
+const CreativesAPI = require("./routes/CreativesAPI");
 
 // Step 2
 mongoose.connect(process.env.MONGODB_URI, {
@@ -50,6 +51,7 @@ app.use("/TemplateAPI", TemplateAPI);
 app.use("/PlaygroundAPI", PlaygroundAPI);
 app.use("/LanguageAPI", LanguageAPI);
 app.use("/PreviewAPI", PreviewAPI);
+app.use("/CreativesAPI", CreativesAPI);
 
 app.get("/*", (req, res) => {
   res.sendFile(path.join(__dirname, "../client/build", "index.html"));

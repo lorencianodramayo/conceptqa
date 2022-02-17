@@ -75,7 +75,9 @@ const Preview = () => {
         <Row>
           <Col span={12}>
             <div className="logo">
-              <img src={logo} alt="QA" />
+              <Link to={`/`}>
+                <img src={logo} alt="QA" />
+              </Link>
             </div>
             <Menu theme="dark" mode="horizontal" defaultSelectedKeys={["3"]}>
               <Menu.Item key="1" icon={<ExperimentOutlined />}>
