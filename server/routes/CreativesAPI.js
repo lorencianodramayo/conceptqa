@@ -3,7 +3,7 @@ const router = express.Router();
 
 const CreativesModel = require("../models/CreativesModel");
 
-router.get("/", (req, res) => {
+router.post("/", (req, res) => {
     console.log(req.query)
     return res.send({msg: "hello"})
 });
