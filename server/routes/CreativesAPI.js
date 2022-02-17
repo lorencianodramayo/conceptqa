@@ -11,7 +11,7 @@ router.post("/", (req, res) => {
         console.log(req.body.data.length);
 
         [req.body.data].map((data, index) => {
-          const obj = {};
+          let obj = {};
           obj = data;
           const creatives = new CreativesModel(obj);
 
